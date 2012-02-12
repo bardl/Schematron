@@ -72,7 +72,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>org.probatron.Driver</mainClass>
+                            <mainClass>se.pagero.schematron.Main</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>
