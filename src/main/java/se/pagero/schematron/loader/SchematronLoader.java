@@ -6,7 +6,7 @@ import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
 import se.pagero.schematron.commons.XsltVersion;
-import se.pagero.schematron.filter.IncludingFilter;
+import se.pagero.schematron.filter.InclusionFilter;
 
 import javax.xml.transform.*;
 import javax.xml.transform.stream.StreamResult;
@@ -30,7 +30,7 @@ public class SchematronLoader {
 
         logger.debug("Performing inclusion ...");
         XMLReader reader = XMLReaderFactory.createXMLReader();
-        IncludingFilter filter = new IncludingFilter(null, true);
+        InclusionFilter filter = new InclusionFilter(null, true);
         filter.setEntityResolver(new EntityResolver() {
             public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
                 LSInput input = resolver.resolveResource("Schematron", null, publicId, systemId, "");

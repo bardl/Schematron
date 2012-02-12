@@ -15,13 +15,13 @@ import java.net.URL;
  * Processed Schematron's &lt;include> element. This filter processes an instance and performs
  * inclusion of documents referenced by Schamtron's &lt;include> element. *
  */
-public class IncludingFilter extends XMLFilterImpl {
+public class InclusionFilter extends XMLFilterImpl {
 
-    static Logger logger = Logger.getLogger(IncludingFilter.class);
+    static Logger logger = Logger.getLogger(InclusionFilter.class);
     private boolean outermost;
     private URL base;
 
-    public IncludingFilter(URL base, boolean outermost) {
+    public InclusionFilter(URL base, boolean outermost) {
         this.base = base;
         this.outermost = outermost;
     }
@@ -55,7 +55,7 @@ public class IncludingFilter extends XMLFilterImpl {
                 String href = atts.getValue("href");
                 logger.debug("Expanding inclusion at: " + href);
                 XMLReader reader = XMLReaderFactory.createXMLReader();
-                IncludingFilter filter = new IncludingFilter(this.base, false);
+                InclusionFilter filter = new InclusionFilter(this.base, false);
                 filter.setParent(reader);
                 filter.setContentHandler(this.getContentHandler());
                 InputSource source = getEntityResolver().resolveEntity(localName, href);
