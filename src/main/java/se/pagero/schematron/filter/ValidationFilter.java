@@ -5,6 +5,12 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.XMLFilterImpl;
 
+/**
+ * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
+ * encountered. It also flags if the validated document is invalid or not. This filter is used by
+ * {@link se.pagero.schematron.validation.SchematronValidator}. 
+ * @author bard.langoy
+ */
 public class ValidationFilter extends XMLFilterImpl {
 
     private ElementPath currentElement;

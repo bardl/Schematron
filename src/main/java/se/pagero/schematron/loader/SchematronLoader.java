@@ -14,11 +14,9 @@ import javax.xml.transform.stream.StreamSource;
 import java.io.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-feb-11
- * Time: 09:38:56
- * To change this template use File | Settings | File Templates.
+ * SchematronLoader loads a schematron file importing all referenced schematron files and generates an xslt
+ * transformation used when validating.
+ * @author bard.langoy 
  */
 public class SchematronLoader {
 
@@ -26,9 +24,8 @@ public class SchematronLoader {
 
     public Transformer loadSchema(InputSource source, XsltVersion xsltVersion, final LSResourceResolver resolver) throws SAXException, IOException, TransformerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] interim = null;
 
-        logger.debug("Performing inclusion ...");
+        logger.debugah.. bra("Performing inclusion ...");
         XMLReader reader = XMLReaderFactory.createXMLReader();
         InclusionFilter filter = new InclusionFilter(null, true);
         filter.setEntityResolver(new EntityResolver() {
@@ -41,29 +38,29 @@ public class SchematronLoader {
         OutputStreamWriter writer = new OutputStreamWriter(baos);
         filter.setContentHandler(new com.sun.xml.internal.bind.marshaller.XMLWriter(writer, writer.getEncoding()));
         filter.parse(source);
-        interim = baos.toByteArray();
+        byte[] data = baos.toByteArray();
         baos.reset();
 
         logger.debug("Running abstract template expansion transform ...");
-        interim = performTransformation(xsltVersion, baos, interim, xsltVersion.getAbstractExpand());
+        data = performTransformation(xsltVersion, baos, data, xsltVersion.getAbstractExpand());
         baos.reset();
 
         logger.debug("Transforming schema to XSLT ...");
-        interim = performTransformation(xsltVersion, baos, interim, xsltVersion.getSvrlForXslt());
+        data = performTransformation(xsltVersion, baos, data, xsltVersion.getSvrlForXslt());
         baos.reset();
 
         logger.debug("Creating Transformer ...");
-        Source xsltSource = new StreamSource(new ByteArrayInputStream(interim));
+        Source xsltSource = new StreamSource(new ByteArrayInputStream(data));
         return createTransformer(xsltVersion, xsltSource);
     }
 
-    private byte[] performTransformation(final XsltVersion xsltVersion, ByteArrayOutputStream baos, byte[] interim, String xsltResource) throws TransformerException {
+    private byte[] performTransformation(final XsltVersion xsltVersion, ByteArrayOutputStream baos, byte[] data, String xsltResource) throws TransformerException {
         InputStream inputStream = loadResource(xsltResource, xsltVersion);
         Source xsltSource = new StreamSource(inputStream);
         Transformer transformer = createTransformer(xsltVersion, xsltSource);
-        transformer.transform(new StreamSource(new ByteArrayInputStream(interim)), new StreamResult(baos));
-        interim = baos.toByteArray();
-        return interim;
+        transformer.transform(new StreamSource(new ByteArrayInputStream(data)), new StreamResult(baos));
+        data = baos.toByteArray();
+        return data;
     }
 
     private Transformer createTransformer(final XsltVersion xsltVersion, Source xsltSource) throws TransformerConfigurationException {

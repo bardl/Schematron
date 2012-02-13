@@ -12,8 +12,9 @@ import se.pagero.schematron.commons.Constants;
 import java.net.URL;
 
 /**
- * Processed Schematron's &lt;include> element. This filter processes an instance and performs
- * inclusion of documents referenced by Schamtron's &lt;include> element. *
+ * InclusionFilter reads through schematron files loading and inserting referenced schematron files found in
+ * include element. This filter is called by {@link se.pagero.schematron.loader.SchematronLoader}. 
+ * @author bard.langoy
  */
 public class InclusionFilter extends XMLFilterImpl {
 

@@ -1,11 +1,8 @@
 package se.pagero.schematron.commons;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-feb-12
- * Time: 17:01:33
- * To change this template use File | Settings | File Templates.
+ * Constants contains shared information.
+ * @author bard.langoy
  */
 public class Constants {
     //TODO:: verify which url is correct.
