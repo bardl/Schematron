@@ -55,7 +55,7 @@ public class EHFSchematronTest {
         testIncorrectFile(testfilePath + "BII05 T10 0 gyldig faktura med vanlige dataelementer.xml", "BIICORE-T10-R000", "EUGEN-T10-R024");
     }
 
-    //@Test
+    //@Test //Test
     public void correctIncorrectFileEmptyElements() throws IOException {
         testIncorrectFile(testfilePath + "BII05 T10 0 gyldig faktura med vanlige dataelementer.xml", "EUGEN-T10-R024");
     }
