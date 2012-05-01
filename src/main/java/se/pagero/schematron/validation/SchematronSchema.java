@@ -1,10 +1,12 @@
 package se.pagero.schematron.validation;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import se.pagero.schematron.commons.XsltVersion;
+import se.pagero.schematron.exception.SchematronException;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.sax.SAXSource;
@@ -14,13 +16,12 @@ import javax.xml.validation.Validator;
 import javax.xml.validation.ValidatorHandler;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-01-29
- * Time: 10:25
- * To change this template use File | Settings | File Templates.
+ * SchematronSchema contains schema for creating a {@link se.pagero.schematron.validation.SchematronValidator}
+ * @author bard.langoy
  */
 public class SchematronSchema extends Schema {
+
+    static Logger logger = Logger.getLogger(SchematronSchema.class);
 
     Source[] sources;
     LSResourceResolver resolver;
@@ -39,33 +40,31 @@ public class SchematronSchema extends Schema {
     @Override
     public Validator newValidator() {
         if (sources == null || sources.length == 0) {
-            //TODO:: Create specific SchematronRuntimeException.
-            throw new RuntimeException("No sources provided for schematron validator.");
+            throw new SchematronException("No sources provided for schematron validator.");
+        }
+
+        if (sources.length > 1) {
+            logger.warn("Schematron does not support multiple sources. Use LSResourceResolver instead.");
         }
 
         try {
-            //TODO:: build support for multiple sources.
-
             Validator validator = new SchematronValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {
-            //TODO:: Create specific SchematronRuntimeException.
-            throw new RuntimeException("Unexpected error occured when creating SchematronValidator.", e);
+            throw new SchematronException("Unexpected error occured when creating SchematronValidator.", e);
         }
     }
 
     private InputSource getInputSource(Source source) throws SAXException {
         if (source instanceof StreamSource) {
             StreamSource streamSource = (StreamSource) source;
-            String publicId = streamSource.getPublicId();
-            String systemId = streamSource.getSystemId();
             return new InputSource(streamSource.getInputStream());
         } else if (source instanceof SAXSource) {
             SAXSource saxSource = (SAXSource) source;
             InputSource inputSource = saxSource.getInputSource();
             if (inputSource == null) {
-                throw new SAXException("");
+                throw new SAXException("Source (SAXSource) provided for loading a schematron schema does not contain a InputSource.");
             }
             return inputSource;
         } else {

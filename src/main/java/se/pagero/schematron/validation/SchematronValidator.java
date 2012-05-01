@@ -1,9 +1,9 @@
 package se.pagero.schematron.validation;
 
-import com.sun.xml.internal.bind.marshaller.XMLWriter;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
+import se.pagero.schematron.commons.XMLWriter;
 import se.pagero.schematron.commons.XsltVersion;
 import se.pagero.schematron.filter.ValidationFilter;
 import se.pagero.schematron.loader.SchematronLoader;
@@ -20,11 +20,8 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-01-29
- * Time: 10:26
- * To change this template use File | Settings | File Templates.
+ * SchematronValidator is a processor that checks an XML document against a schematron schema.
+ * @author bard.langoy 
  */
 public class SchematronValidator extends Validator {
 
@@ -52,13 +49,7 @@ public class SchematronValidator extends Validator {
             transformer.transform(source, new StreamResult(baos));
 
             byte[] reportBytes = baos.toByteArray();
-            XMLReader reader = XMLReaderFactory.createXMLReader();
-            ValidationFilter filter = new ValidationFilter();
-            filter.setErrorHandler(errorHandler);
-            filter.setParent(reader);
-            baos = new ByteArrayOutputStream();
-            filter.setContentHandler(new XMLWriter(new OutputStreamWriter(baos), ""));
-            filter.setErrorHandler(getErrorHandler());
+            ValidationFilter filter = createAndInitializeFilter();
             filter.parse(new InputSource(new ByteArrayInputStream(reportBytes)));
 
             if (!filter.isValid()) {
@@ -87,6 +78,15 @@ public class SchematronValidator extends Validator {
     @Override
     public LSResourceResolver getResourceResolver() {
         return resourceResolver;
+    }
+
+    private ValidationFilter createAndInitializeFilter() throws SAXException {
+        ValidationFilter filter = new ValidationFilter();
+        filter.setErrorHandler(errorHandler);
+        filter.setParent(XMLReaderFactory.createXMLReader());
+        filter.setContentHandler(new XMLWriter(new OutputStreamWriter(new ByteArrayOutputStream())));
+        filter.setErrorHandler(getErrorHandler());
+        return filter;
     }
 
 }

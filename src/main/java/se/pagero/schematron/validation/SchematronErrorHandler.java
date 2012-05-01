@@ -5,11 +5,9 @@ import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-01-30
- * Time: 07:32
- * To change this template use File | Settings | File Templates.
+ * SchematronErrorHandler is a default ErrorHandler used for catching error events produced in
+ * {@link se.pagero.schematron.validation.SchematronValidator}.
+ * @author bard.langoy
  */
 public class SchematronErrorHandler implements ErrorHandler {
     private StringBuilder errorReport = new StringBuilder();

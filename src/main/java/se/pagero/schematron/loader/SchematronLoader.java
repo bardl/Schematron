@@ -5,6 +5,7 @@ import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
+import se.pagero.schematron.commons.XMLWriter;
 import se.pagero.schematron.commons.XsltVersion;
 import se.pagero.schematron.filter.InclusionFilter;
 
@@ -25,20 +26,8 @@ public class SchematronLoader {
     public Transformer loadSchema(InputSource source, XsltVersion xsltVersion, final LSResourceResolver resolver) throws SAXException, IOException, TransformerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        logger.debugah.. bra("Performing inclusion ...");
-        XMLReader reader = XMLReaderFactory.createXMLReader();
-        InclusionFilter filter = new InclusionFilter(null, true);
-        filter.setEntityResolver(new EntityResolver() {
-            public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
-                LSInput input = resolver.resolveResource("Schematron", null, publicId, systemId, "");
-                return new InputSource(input.getByteStream());
-            }
-        });
-        filter.setParent(reader);
-        OutputStreamWriter writer = new OutputStreamWriter(baos);
-        filter.setContentHandler(new com.sun.xml.internal.bind.marshaller.XMLWriter(writer, writer.getEncoding()));
-        filter.parse(source);
-        byte[] data = baos.toByteArray();
+        logger.debug("Performing inclusion ...");
+        byte[] data = performInclusionOfSchematron(source, resolver, baos);
         baos.reset();
 
         logger.debug("Running abstract template expansion transform ...");
@@ -52,6 +41,22 @@ public class SchematronLoader {
         logger.debug("Creating Transformer ...");
         Source xsltSource = new StreamSource(new ByteArrayInputStream(data));
         return createTransformer(xsltVersion, xsltSource);
+    }
+
+    private byte[] performInclusionOfSchematron(InputSource source, final LSResourceResolver resolver, ByteArrayOutputStream baos) throws SAXException, IOException {
+        XMLReader reader = XMLReaderFactory.createXMLReader();
+        InclusionFilter filter = new InclusionFilter(null, true);
+        filter.setEntityResolver(new EntityResolver() {
+            public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
+                LSInput input = resolver.resolveResource("Schematron", null, publicId, systemId, "");
+                return new InputSource(input.getByteStream());
+            }
+        });
+        filter.setParent(reader);
+        OutputStreamWriter writer = new OutputStreamWriter(baos);
+        filter.setContentHandler(new XMLWriter(writer));
+        filter.parse(source);
+        return baos.toByteArray();
     }
 
     private byte[] performTransformation(final XsltVersion xsltVersion, ByteArrayOutputStream baos, byte[] data, String xsltResource) throws TransformerException {
@@ -71,11 +76,10 @@ public class SchematronLoader {
                 return new StreamSource(inputStream);
             }
         });
-        Transformer transformer = factory.newTransformer(xsltSource);
-        return transformer;
+        return factory.newTransformer(xsltSource);
     }
 
-    public InputStream loadResource(String xsltResource, XsltVersion version) {
+    private InputStream loadResource(String xsltResource, XsltVersion version) {
         return getClass().getClassLoader().getResourceAsStream(version.getResourcePath() + "/" + xsltResource);
     }
 

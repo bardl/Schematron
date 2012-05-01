@@ -10,11 +10,8 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 /**
- * Created by IntelliJ IDEA.
- * User: bardl
- * Date: 2012-feb-11
- * Time: 08:49:28
- * To change this template use File | Settings | File Templates.
+ * SchematronSchemaFactory is a factory that creates {@link se.pagero.schematron.validation.SchematronSchema} objects.
+ * @author bard.langoy
  */
 public class SchematronSchemaFactory extends SchemaFactory {
 

@@ -55,9 +55,8 @@ public class InclusionFilter extends XMLFilterImpl {
             try {
                 String href = atts.getValue("href");
                 logger.debug("Expanding inclusion at: " + href);
-                XMLReader reader = XMLReaderFactory.createXMLReader();
                 InclusionFilter filter = new InclusionFilter(this.base, false);
-                filter.setParent(reader);
+                filter.setParent(XMLReaderFactory.createXMLReader());
                 filter.setContentHandler(this.getContentHandler());
                 InputSource source = getEntityResolver().resolveEntity(localName, href);
                 filter.parse(source);
