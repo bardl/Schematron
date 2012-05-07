@@ -4,6 +4,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 import org.xml.sax.helpers.XMLFilterImpl;
+import se.pagero.schematron.exception.SchematronException;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
@@ -25,10 +26,31 @@ public class ValidationFilter extends XMLFilterImpl {
         currentElement = new ElementPath(localName, currentElement);
         if (currentElement.name.equals("failed-assert")) {
             currentElement.setMessage(atts.getValue("test"));
-            valid = false;
+            currentElement.setLevel(convertFlagToValidationLevel(atts.getValue("flag")));
+
+            if (currentElement.getLevel() == ValidationLevel.ERROR || currentElement.getLevel() == ValidationLevel.FATAL) {
+                valid = false;
+            }
         }
 
         super.startElement(namespaceURI, localName, qualifiedName, atts);
+    }
+
+    private ValidationLevel convertFlagToValidationLevel(String value) {
+        ValidationLevel result = null;
+        if ("warning".equals(value.toLowerCase())) {
+            result = ValidationLevel.WARN;
+        } else if ("error".equals(value.toLowerCase())) {
+            result = ValidationLevel.ERROR;
+        } else if ("fatal".equals(value.toLowerCase())) {
+            result = ValidationLevel.FATAL;
+        }
+
+        if (result == null) {
+            throw new SchematronException("Unable to parse validation error level [" + value + "] when executing validation filter for test [" + currentElement.getMessage() + "].");
+        }
+
+        return result;
     }
 
     @Override
@@ -41,7 +63,13 @@ public class ValidationFilter extends XMLFilterImpl {
             message.append("].");
 
             if (getErrorHandler() != null) {
-                getErrorHandler().error(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
+                if (currentElement.getLevel() == ValidationLevel.ERROR) {
+                    getErrorHandler().error(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
+                } else if (currentElement.getLevel() == ValidationLevel.WARN) {
+                    getErrorHandler().warning(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
+                } else if (currentElement.getLevel() == ValidationLevel.FATAL) {
+                    getErrorHandler().fatalError(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
+                }
             }
 
             errorReport.append(message);
@@ -64,6 +92,7 @@ public class ValidationFilter extends XMLFilterImpl {
         String name;
         ElementPath parent;
         String message;
+        ValidationLevel level;
 
         ElementPath(String name, ElementPath parent) {
             this.name = name;
@@ -76,6 +105,14 @@ public class ValidationFilter extends XMLFilterImpl {
 
         public void setMessage(String message) {
             this.message = message;
+        }
+
+        public ValidationLevel getLevel() {
+            return level;
+        }
+
+        public void setLevel(ValidationLevel level) {
+            this.level = level;
         }
     }
 }

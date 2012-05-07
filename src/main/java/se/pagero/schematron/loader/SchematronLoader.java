@@ -3,7 +3,10 @@ package se.pagero.schematron.loader;
 import org.apache.log4j.Logger;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.*;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.XMLReaderFactory;
 import se.pagero.schematron.commons.XMLWriter;
 import se.pagero.schematron.commons.XsltVersion;
@@ -22,6 +25,9 @@ import java.io.*;
 public class SchematronLoader {
 
     static Logger logger = Logger.getLogger(SchematronLoader.class);
+
+    private static final String PROPERTY_TRAX_IMPLEMENTATION = "javax.xml.transform.TransformerFactory";
+    private static final String SAXON_TRAX_CLASS = "net.sf.saxon.TransformerFactoryImpl";
 
     public Transformer loadSchema(InputSource source, XsltVersion xsltVersion, final LSResourceResolver resolver) throws SAXException, IOException, TransformerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -60,15 +66,26 @@ public class SchematronLoader {
     }
 
     private byte[] performTransformation(final XsltVersion xsltVersion, ByteArrayOutputStream baos, byte[] data, String xsltResource) throws TransformerException {
-        InputStream inputStream = loadResource(xsltResource, xsltVersion);
-        Source xsltSource = new StreamSource(inputStream);
-        Transformer transformer = createTransformer(xsltVersion, xsltSource);
-        transformer.transform(new StreamSource(new ByteArrayInputStream(data)), new StreamResult(baos));
-        data = baos.toByteArray();
-        return data;
+        InputStream inputStream = null;
+        try {
+            inputStream = loadResource(xsltResource, xsltVersion);
+            Source xsltSource = new StreamSource(inputStream);
+            Transformer transformer = createTransformer(xsltVersion, xsltSource);
+            transformer.transform(new StreamSource(new ByteArrayInputStream(data)), new StreamResult(baos));
+            return baos.toByteArray();
+        } finally {
+            try {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+            } catch (IOException e) {
+                throw new TransformerException("Error occured when closing schematron resource [" + xsltResource + "].", e);
+            }
+        }
     }
 
     private Transformer createTransformer(final XsltVersion xsltVersion, Source xsltSource) throws TransformerConfigurationException {
+        System.setProperty( PROPERTY_TRAX_IMPLEMENTATION, SAXON_TRAX_CLASS );
         TransformerFactory factory = TransformerFactory.newInstance();
         factory.setURIResolver(new URIResolver() {
             public Source resolve(String href, String base) throws TransformerException {
@@ -82,6 +99,4 @@ public class SchematronLoader {
     private InputStream loadResource(String xsltResource, XsltVersion version) {
         return getClass().getClassLoader().getResourceAsStream(version.getResourcePath() + "/" + xsltResource);
     }
-
-
 }

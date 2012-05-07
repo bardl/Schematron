@@ -46,19 +46,67 @@ public class EHFSchematronTest {
     }
 
     @Test
-    public void correctFile() throws IOException {
-        testIncorrectFile(testfilePath + "BII04 T10 gyldig faktura med alle elementer.xml", "BIIRULE-T10-R018", "PCL-010-008");
+    public void correctFile() throws IOException, SAXException {
+        InputStream mainSchema = getClass().getClassLoader().getResourceAsStream(testfilePath + "BII05 T10 0 gyldig faktura med vanlige dataelementer.xml");
+        validator.validate(new StreamSource(mainSchema));        
+    }
+    
+    @Test
+    public void incorrectEHFAccordingToRequirement_1() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 1 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R001");
     }
 
     @Test
-    public void correctIncorrectFile() throws IOException {
-        testIncorrectFile(testfilePath + "BII05 T10 0 gyldig faktura med vanlige dataelementer.xml", "BIICORE-T10-R000", "EUGEN-T10-R024");
+    public void incorrectEHFAccordingToRequirement_1_1() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 1.1 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R001");
     }
 
-    //@Test //Test
-    public void correctIncorrectFileEmptyElements() throws IOException {
-        testIncorrectFile(testfilePath + "BII05 T10 0 gyldig faktura med vanlige dataelementer.xml", "EUGEN-T10-R024");
+    @Test
+    public void incorrectEHFAccordingToRequirement_10() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 10 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NOGOV-T10-R007");
     }
+
+    @Test
+    public void incorrectEHFAccordingToRequirement_10_1() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 10.1 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NOGOV-T10-R007");
+    }
+
+    @Test
+    public void incorrectEHFAccordingToRequirement_11() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 11 feil ehandel.no format faktura.xml", "EUGEN-T10-R024");
+    }
+
+    @Test
+    public void incorrectEHFAccordingToRequirement_12() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 12 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NOGOV-T10-R009");
+    }
+
+    @Test
+    public void incorrectEHFAccordingToRequirement_2() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 2 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R002");
+    }
+    @Test
+    public void incorrectEHFAccordingToRequirement_3() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 3 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R003");
+    }
+    @Test
+    public void incorrectEHFAccordingToRequirement_4() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 4 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R004");
+    }
+    @Test
+    public void incorrectEHFAccordingToRequirement_5() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 5 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R005");
+    }
+    @Test
+    public void incorrectEHFAccordingToRequirement_7() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 7 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NOGOV-T10-R014");
+    }
+    @Test
+    public void incorrectEHFAccordingToRequirement_8() throws IOException {
+        testIncorrectFile(testfilePath + "BII05 T10 8 feil ehandel.no format faktura.xml", "EUGEN-T10-R024", "NONAT-T10-R007");
+    }
+
+
 
     private void testIncorrectFile(String testfile, String... errorCodes) throws IOException {
         try {

@@ -59,7 +59,7 @@ public class InclusionFilter extends XMLFilterImpl {
                 filter.setParent(XMLReaderFactory.createXMLReader());
                 filter.setContentHandler(this.getContentHandler());
                 InputSource source = getEntityResolver().resolveEntity(localName, href);
-                filter.parse(source);
+                filter.parse(source);                
             }
             catch (Exception e) {
                 throw new SAXException("Unexpected error occured when running inclusion on schematron files.", e);

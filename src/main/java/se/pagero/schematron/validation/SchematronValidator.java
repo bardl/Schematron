@@ -1,5 +1,6 @@
 package se.pagero.schematron.validation;
 
+import org.apache.log4j.Logger;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -25,6 +26,8 @@ import java.io.OutputStreamWriter;
  */
 public class SchematronValidator extends Validator {
 
+    static Logger logger = Logger.getLogger(SchematronLoader.class);
+
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
     private Transformer transformer;
@@ -38,7 +41,7 @@ public class SchematronValidator extends Validator {
 
     @Override
     public void reset() {
-        System.out.println("reset method called for SchematronValidator...");
+        logger.info("Method reset() called for SchematronValidator...");
     }
 
     @Override
