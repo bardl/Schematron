@@ -6,7 +6,10 @@ import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
 import se.pagero.schematron.commons.XMLWriter;
 import se.pagero.schematron.commons.XsltVersion;
+import se.pagero.schematron.exception.SchematronException;
+import se.pagero.schematron.filter.SVRLValidationFilter;
 import se.pagero.schematron.filter.ValidationFilter;
+import se.pagero.schematron.filter.ValidationFilterFactory;
 import se.pagero.schematron.loader.SchematronLoader;
 
 import javax.xml.transform.Result;
@@ -19,6 +22,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.util.ServiceLoader;
 
 /**
  * SchematronValidator is a processor that checks an XML document against a schematron schema.
@@ -26,17 +30,18 @@ import java.io.OutputStreamWriter;
  */
 public class SchematronValidator extends Validator {
 
-    static Logger logger = Logger.getLogger(SchematronLoader.class);
+    public static final int REPORT_IDENTIFY_LENGTH = 1000;
 
+    static Logger logger = Logger.getLogger(SchematronLoader.class);
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
     private Transformer transformer;
 
-    public SchematronValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver) throws TransformerException, IOException, SAXException {
+    public SchematronValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
         this.resourceResolver = resolver;
 
         SchematronLoader loader = new SchematronLoader();
-        this.transformer = loader.loadSchema(inputSource, version, resolver);
+        this.transformer = loader.loadSchema(inputSource, version, resolver, compileSchematron);
     }
 
     @Override
@@ -52,7 +57,7 @@ public class SchematronValidator extends Validator {
             transformer.transform(source, new StreamResult(baos));
 
             byte[] reportBytes = baos.toByteArray();
-            ValidationFilter filter = createAndInitializeFilter();
+            ValidationFilter filter = createAndInitializeFilter(new String(reportBytes, 0, REPORT_IDENTIFY_LENGTH));
             filter.parse(new InputSource(new ByteArrayInputStream(reportBytes)));
 
             if (!filter.isValid()) {
@@ -83,8 +88,8 @@ public class SchematronValidator extends Validator {
         return resourceResolver;
     }
 
-    private ValidationFilter createAndInitializeFilter() throws SAXException {
-        ValidationFilter filter = new ValidationFilter();
+    private ValidationFilter createAndInitializeFilter(String report) throws SAXException {
+        ValidationFilter filter = ValidationFilterFactory.identifyAndCreateReportValidator(report);
         filter.setErrorHandler(errorHandler);
         filter.setParent(XMLReaderFactory.createXMLReader());
         filter.setContentHandler(new XMLWriter(new OutputStreamWriter(new ByteArrayOutputStream())));

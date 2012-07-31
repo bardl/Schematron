@@ -17,6 +17,7 @@ public class SchematronSchemaFactory extends SchemaFactory {
 
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
+    private boolean compileSchematron = true;
 
     @Override
     public boolean isSchemaLanguageSupported(String schemaLanguage) {
@@ -45,16 +46,24 @@ public class SchematronSchemaFactory extends SchemaFactory {
 
     @Override
     public Schema newSchema(Source schema) throws SAXException {
-        return new SchematronSchema(schema, resourceResolver, errorHandler);
+        return new SchematronSchema(schema, resourceResolver, errorHandler, compileSchematron);
     }
 
     @Override
     public Schema newSchema(Source[] schemas) throws SAXException {
-        return new SchematronSchema(schemas, resourceResolver, errorHandler);
+        return new SchematronSchema(schemas, resourceResolver, errorHandler, compileSchematron);
     }
 
     @Override
     public Schema newSchema() throws SAXException {
         throw new SAXException("Not implemented support for SchematronSchemaFactory.newSchema(void) method.");
+    }
+
+    public boolean isCompileSchematron() {
+        return compileSchematron;
+    }
+
+    public void setCompileSchematron(boolean compileSchematron) {
+        this.compileSchematron = compileSchematron;
     }
 }

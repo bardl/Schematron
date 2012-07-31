@@ -29,21 +29,26 @@ public class SchematronLoader {
     private static final String PROPERTY_TRAX_IMPLEMENTATION = "javax.xml.transform.TransformerFactory";
     private static final String SAXON_TRAX_CLASS = "net.sf.saxon.TransformerFactoryImpl";
 
-    public Transformer loadSchema(InputSource source, XsltVersion xsltVersion, final LSResourceResolver resolver) throws SAXException, IOException, TransformerException {
+    public Transformer loadSchema(InputSource source, XsltVersion xsltVersion, final LSResourceResolver resolver, boolean compileSchematron) throws SAXException, IOException, TransformerException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-        logger.debug("Performing inclusion ...");
-        byte[] data = performInclusionOfSchematron(source, resolver, baos);
-        baos.reset();
+        byte[] data = null;
+        if (compileSchematron) {
+            logger.debug("Performing inclusion ...");
+            data = performInclusionOfSchematron(source, resolver, baos);
+            baos.reset();
 
-        logger.debug("Running abstract template expansion transform ...");
-        data = performTransformation(xsltVersion, baos, data, xsltVersion.getAbstractExpand());
-        baos.reset();
+            logger.debug("Running abstract template expansion transform ...");
+            data = performTransformation(xsltVersion, baos, data, xsltVersion.getAbstractExpand());
+            baos.reset();
 
-        logger.debug("Transforming schema to XSLT ...");
-        data = performTransformation(xsltVersion, baos, data, xsltVersion.getSvrlForXslt());
-        baos.reset();
-
+            logger.debug("Transforming schema to XSLT ...");
+            data = performTransformation(xsltVersion, baos, data, xsltVersion.getSvrlForXslt());
+            baos.reset();
+        } else {
+            data = new byte[source.getByteStream().available()];
+            source.getByteStream().read(data);
+        }
         logger.debug("Creating Transformer ...");
         Source xsltSource = new StreamSource(new ByteArrayInputStream(data));
         return createTransformer(xsltVersion, xsltSource);

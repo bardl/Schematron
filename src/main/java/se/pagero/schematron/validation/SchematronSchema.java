@@ -26,15 +26,17 @@ public class SchematronSchema extends Schema {
     Source[] sources;
     LSResourceResolver resolver;
     ErrorHandler errorHandler;
+    boolean compileSchematron;
 
-    public SchematronSchema(Source source, LSResourceResolver resolver, ErrorHandler errorHandler) {
-        this(new Source[]{source}, resolver, errorHandler);
+    public SchematronSchema(Source source, LSResourceResolver resolver, ErrorHandler errorHandler, boolean compileSchematron) {
+        this(new Source[]{source}, resolver, errorHandler, compileSchematron);
     }
 
-    public SchematronSchema(Source[] sources, LSResourceResolver resolver, ErrorHandler errorHandler) {
+    public SchematronSchema(Source[] sources, LSResourceResolver resolver, ErrorHandler errorHandler, boolean compileSchematron) {
         this.sources = sources;
         this.resolver = resolver;
         this.errorHandler = errorHandler;
+        this.compileSchematron = compileSchematron;
     }
 
     @Override
@@ -48,7 +50,7 @@ public class SchematronSchema extends Schema {
         }
 
         try {
-            Validator validator = new SchematronValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver);
+            Validator validator = new SchematronValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, compileSchematron);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {

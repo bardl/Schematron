@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Invoice xmlns="urn:oasis:names:specification:ubl:schema:xsd:Invoice-2" xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2" xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2" xmlns:ccts="urn:un:unece:uncefact:documentation:2" xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2" xmlns:qdt="urn:oasis:names:specification:ubl:schema:xsd:QualifiedDatatypes-2" xmlns:sdt="urn:oasis:names:specification:ubl:schema:xsd:SpecializedDatatypes-2" xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<cbc:UBLVersionID>2.0</cbc:UBLVersionID>
+	<cbc:CustomizationID>OIOUBL-2.01</cbc:CustomizationID>
+	<cbc:ProfileID schemeAgencyID="320" schemeID="urn:oioubl:id:profileid-1.2">urn:www.nesubl.eu:profiles:profile5:ver2.0</cbc:ProfileID>
+	<cbc:ID>10013821</cbc:ID>
+	<cbc:CopyIndicator>false</cbc:CopyIndicator>
+	<cbc:IssueDate>2011-12-20</cbc:IssueDate>
+	<cbc:InvoiceTypeCode listAgencyID="320" listID="urn:oioubl:codelist:invoicetypecode-1.1">380</cbc:InvoiceTypeCode>
+	<cbc:Note>Fakturan är skapad av Pagero på begäran av säljaren.</cbc:Note>
+	<cbc:DocumentCurrencyCode>DKK</cbc:DocumentCurrencyCode>
+	<cbc:LineCountNumeric>2</cbc:LineCountNumeric>
+	<cac:OrderReference>
+		<cbc:ID>3000287511</cbc:ID>
+		<cbc:SalesOrderID>240858</cbc:SalesOrderID>
+		<cbc:IssueDate>2011-12-20</cbc:IssueDate>
+	</cac:OrderReference>
+	<cac:AccountingSupplierParty>
+		<cac:Party>
+			<cbc:EndpointID schemeID="DK:CVR">DK31270766</cbc:EndpointID>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="ZZZ">31270766</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="GLN">5790002052439</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>Fisher &amp; Paykel Healthcare AB</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:AddressFormatCode listAgencyID="320" listID="urn:oioubl:codelist:addressformatcode-1.1">StructuredLax</cbc:AddressFormatCode>
+				<cbc:StreetName>Spjutvägen 6</cbc:StreetName>
+				<cbc:CityName>JÄRFÄLLA</cbc:CityName>
+				<cbc:PostalZone>175 61</cbc:PostalZone>
+			</cac:PostalAddress>
+			<cac:PartyTaxScheme>
+				<cbc:CompanyID schemeID="ZZZ">DK31270766</cbc:CompanyID>
+				<cac:TaxScheme>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
+					<cbc:Name>Moms</cbc:Name>
+				</cac:TaxScheme>
+			</cac:PartyTaxScheme>
+			<cac:PartyLegalEntity>
+				<cbc:CompanyID schemeID="ZZZ">31270766</cbc:CompanyID>
+				<cac:RegistrationAddress>
+					<cbc:CityName>Järfälla</cbc:CityName>
+				</cac:RegistrationAddress>
+			</cac:PartyLegalEntity>
+			<cac:Contact>
+				<cbc:ID>N/A</cbc:ID>
+				<cbc:Telephone>08-564 76 680</cbc:Telephone>
+				<cbc:Telefax>08-36 63 10</cbc:Telefax>
+				<cbc:ElectronicMail>info@fphcare.se</cbc:ElectronicMail>
+				<cbc:Note>www.fphcare.com</cbc:Note>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingSupplierParty>
+	<cac:AccountingCustomerParty>
+		<cbc:CustomerAssignedAccountID>D02081</cbc:CustomerAssignedAccountID>
+		<cac:Party>
+			<cbc:EndpointID schemeID="GLN">5798002803785</cbc:EndpointID>
+			<cac:PartyIdentification>
+				<cbc:ID schemeID="GLN">5798002803785</cbc:ID>
+			</cac:PartyIdentification>
+			<cac:PartyName>
+				<cbc:Name>UNIVERSITSTSHOSPITALET SKEJBY</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:AddressFormatCode listAgencyID="320" listID="urn:oioubl:codelist:addressformatcode-1.1">StructuredLax</cbc:AddressFormatCode>
+				<cbc:StreetName>VAREMODTAGELSEN/CENTRALLAGER</cbc:StreetName>
+				<cbc:AdditionalStreetName>TAGE-HANSENS GADE 2</cbc:AdditionalStreetName>
+				<cbc:Department>CENTRALDEPOT</cbc:Department>
+				<cbc:CityName>ÅRHUS C</cbc:CityName>
+				<cbc:PostalZone>8000</cbc:PostalZone>
+				<cac:Country>
+					<cbc:IdentificationCode>SE</cbc:IdentificationCode>
+					<cbc:Name>DENMARK</cbc:Name>
+				</cac:Country>
+			</cac:PostalAddress>
+			<cac:Contact>
+				<cbc:ID>N/A</cbc:ID>
+				<cbc:Name>3000287511</cbc:Name>
+			</cac:Contact>
+		</cac:Party>
+	</cac:AccountingCustomerParty>
+	<cac:Delivery>
+		<cbc:ActualDeliveryDate>2011-12-20</cbc:ActualDeliveryDate>
+		<cac:DeliveryParty>
+			<cac:PartyName>
+				<cbc:Name>ÅRHUS SYGEHUS</cbc:Name>
+			</cac:PartyName>
+			<cac:PostalAddress>
+				<cbc:AddressFormatCode listAgencyID="320" listID="urn:oioubl:codelist:addressformatcode-1.1">StructuredLax</cbc:AddressFormatCode>
+				<cbc:StreetName>VAREMODTAGELSEN/CENTRALLAGER</cbc:StreetName>
+				<cbc:Department>UNIVERSITETSHOSPITAL</cbc:Department>
+				<cbc:CityName>TAGE-HANSENS GADE 2</cbc:CityName>
+			</cac:PostalAddress>
+		</cac:DeliveryParty>
+	</cac:Delivery>
+	<cac:PaymentMeans>
+		<cbc:ID>1</cbc:ID>
+		<cbc:PaymentMeansCode>1</cbc:PaymentMeansCode>
+		<cbc:PaymentDueDate>2012-01-19</cbc:PaymentDueDate>
+		<cbc:PaymentChannelCode listAgencyID="320" listID="urn:oioubl:codelist:paymentchannelcode-1.1">DK:BANK</cbc:PaymentChannelCode>
+		<cac:PayeeFinancialAccount>
+			<cbc:ID>3928005569</cbc:ID>
+		</cac:PayeeFinancialAccount>
+	</cac:PaymentMeans>
+	<cac:PaymentMeans>
+		<cbc:ID>2</cbc:ID>
+		<cbc:PaymentMeansCode>1</cbc:PaymentMeansCode>
+		<cbc:PaymentDueDate>2012-01-19</cbc:PaymentDueDate>
+		<cbc:PaymentChannelCode listAgencyID="320" listID="urn:oioubl:codelist:paymentchannelcode-1.1">DK:BANK</cbc:PaymentChannelCode>
+		<cac:PayeeFinancialAccount>
+			<cbc:ID>310784-4</cbc:ID>
+			<cac:FinancialInstitutionBranch>
+				<cbc:ID>PGSISESS</cbc:ID>
+				<cac:FinancialInstitution>
+					<cbc:ID>PGSISESS</cbc:ID>
+				</cac:FinancialInstitution>
+			</cac:FinancialInstitutionBranch>
+		</cac:PayeeFinancialAccount>
+	</cac:PaymentMeans>
+	<cac:PaymentMeans>
+		<cbc:ID>3</cbc:ID>
+		<cbc:PaymentMeansCode>1</cbc:PaymentMeansCode>
+		<cbc:PaymentDueDate>2012-01-19</cbc:PaymentDueDate>
+		<cbc:PaymentChannelCode listAgencyID="320" listID="urn:oioubl:codelist:paymentchannelcode-1.1">DK:BANK</cbc:PaymentChannelCode>
+		<cac:PayeeFinancialAccount>
+			<cbc:ID>208-8177</cbc:ID>
+			<cac:FinancialInstitutionBranch>
+				<cbc:ID>BGABSESS</cbc:ID>
+				<cac:FinancialInstitution>
+					<cbc:ID>BGABSESS</cbc:ID>
+				</cac:FinancialInstitution>
+			</cac:FinancialInstitutionBranch>
+		</cac:PayeeFinancialAccount>
+	</cac:PaymentMeans>
+	<cac:PaymentTerms>
+		<cbc:Note>Renten tilskrives på 8% + diskonten efter forfaldsdagen</cbc:Note>
+		<cbc:PenaltySurchargePercent>8</cbc:PenaltySurchargePercent>
+		<cbc:Amount currencyID="DKK">12650.00</cbc:Amount>
+	</cac:PaymentTerms>
+	<cac:TaxTotal>
+		<cbc:TaxAmount currencyID="DKK">2530.00</cbc:TaxAmount>
+		<cac:TaxSubtotal>
+			<cbc:TaxableAmount currencyID="DKK">10120.00</cbc:TaxableAmount>
+			<cbc:TaxAmount currencyID="DKK">2530.00</cbc:TaxAmount>
+			<cac:TaxCategory>
+				<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">StandardRated</cbc:ID>
+				<cbc:Percent>25</cbc:Percent>
+				<cac:TaxScheme>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
+					<cbc:Name>Moms</cbc:Name>
+				</cac:TaxScheme>
+			</cac:TaxCategory>
+		</cac:TaxSubtotal>
+	</cac:TaxTotal>
+	<cac:LegalMonetaryTotal>
+		<cbc:LineExtensionAmount currencyID="DKK">10120.00</cbc:LineExtensionAmount>
+		<cbc:TaxExclusiveAmount currencyID="DKK">2530.00</cbc:TaxExclusiveAmount>
+		<cbc:TaxInclusiveAmount currencyID="DKK">12650.00</cbc:TaxInclusiveAmount>
+		<cbc:PayableAmount currencyID="DKK">12650.00</cbc:PayableAmount>
+	</cac:LegalMonetaryTotal>
+	<cac:InvoiceLine>
+		<cbc:ID>10</cbc:ID>
+		<cbc:InvoicedQuantity unitCode="EA">3</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="DKK">8700.00</cbc:LineExtensionAmount>
+		<cac:TaxTotal>
+			<cbc:TaxAmount currencyID="DKK">2175.00</cbc:TaxAmount>
+			<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="DKK">8700.00</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="DKK">2175.00</cbc:TaxAmount>
+				<cac:TaxCategory>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">StandardRated</cbc:ID>
+					<cbc:Percent>25</cbc:Percent>
+					<cac:TaxScheme>
+						<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
+						<cbc:Name>Moms</cbc:Name>
+					</cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+		</cac:TaxTotal>
+		<cac:Item>
+			<cbc:Description></cbc:Description>
+			<cbc:Name>CCT Adult + MR290 + RT019 EAN 5798002803</cbc:Name>
+			<cac:SellersItemIdentification>
+				<cbc:ID schemeAgencyID="9" schemeID="GTIN">RT340</cbc:ID>
+			</cac:SellersItemIdentification>
+		</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="DKK">2900.00</cbc:PriceAmount>
+			<cbc:OrderableUnitFactorRate>1</cbc:OrderableUnitFactorRate>
+		</cac:Price>
+	</cac:InvoiceLine>
+	<cac:InvoiceLine>
+		<cbc:ID>20</cbc:ID>
+		<cbc:InvoicedQuantity unitCode="EA">1</cbc:InvoicedQuantity>
+		<cbc:LineExtensionAmount currencyID="DKK">1420.00</cbc:LineExtensionAmount>
+		<cac:TaxTotal>
+			<cbc:TaxAmount currencyID="DKK">355.00</cbc:TaxAmount>
+			<cac:TaxSubtotal>
+				<cbc:TaxableAmount currencyID="DKK">1420.00</cbc:TaxableAmount>
+				<cbc:TaxAmount currencyID="DKK">355.00</cbc:TaxAmount>
+				<cac:TaxCategory>
+					<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxcategoryid-1.1">StandardRated</cbc:ID>
+					<cbc:Percent>25</cbc:Percent>
+					<cac:TaxScheme>
+						<cbc:ID schemeAgencyID="320" schemeID="urn:oioubl:id:taxschemeid-1.1">63</cbc:ID>
+						<cbc:Name>Moms</cbc:Name>
+					</cac:TaxScheme>
+				</cac:TaxCategory>
+			</cac:TaxSubtotal>
+		</cac:TaxTotal>
+		<cac:Item>
+			<cbc:Description></cbc:Description>
+			<cbc:Name>CIRCUIT KIT ADULT 02THPY 10BX Respiratio</cbc:Name>
+			<cac:SellersItemIdentification>
+				<cbc:ID schemeAgencyID="9" schemeID="GTIN">RT203</cbc:ID>
+			</cac:SellersItemIdentification>
+		</cac:Item>
+		<cac:Price>
+			<cbc:PriceAmount currencyID="DKK">1420.00</cbc:PriceAmount>
+			<cbc:OrderableUnitFactorRate>1</cbc:OrderableUnitFactorRate>
+		</cac:Price>
+	</cac:InvoiceLine>
+</Invoice>
