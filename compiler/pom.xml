@@ -24,7 +24,7 @@
         <plugins>
             <plugin>
                 <groupId>se.pagero</groupId>
-                <artifactId>schematron-compiler</artifactId>
+                <artifactId>schematron-maven-plugin</artifactId>
                 <version>1.0</version>
                 <configuration>
                     <schematronFiles>
