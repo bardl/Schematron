@@ -104,7 +104,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>se.pagero.schematron.Main</mainClass>
+                            <mainClass>org.schematron.Main</mainClass>
                             <addClasspath>true</addClasspath>
                         </manifest>
                     </archive>

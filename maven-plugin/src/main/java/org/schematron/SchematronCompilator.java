@@ -2,8 +2,8 @@ package org.schematron;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
-import se.pagero.schematron.commons.XsltVersion;
-import se.pagero.schematron.loader.SchematronLoader;
+import org.schematron.commons.XsltVersion;
+import org.schematron.loader.SchematronLoader;
 
 import javax.xml.transform.TransformerException;
 import java.io.File;
