@@ -3,20 +3,20 @@
 	<parent>
 		<groupId>se.pagero</groupId>
 		<artifactId>schematron</artifactId>
-		<version>1.0</version>
+		<version>1.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>	
 	<name>Schematron Compiler</name>
 	<groupId>se.pagero</groupId>
 	<artifactId>schematron-compiler</artifactId>
     <packaging>jar</packaging>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
 	    
 	<dependencies>
         <dependency>
             <groupId>se.pagero</groupId>
             <artifactId>schematron-maven-plugin</artifactId>
-            <version>1.0</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
 
@@ -25,7 +25,7 @@
             <plugin>
                 <groupId>se.pagero</groupId>
                 <artifactId>schematron-maven-plugin</artifactId>
-                <version>1.0</version>
+                <version>1.1-SNAPSHOT</version>
                 <configuration>
                     <schematronFiles>
                         <param>/src/main/resource/ehf/schematron/NORWAY-UBL-T10.sch</param>
