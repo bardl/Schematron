@@ -1,57 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>	
-	<name>Schematron</name>
-	<groupId>se.pagero</groupId>
-	<artifactId>schematron</artifactId>
+    <modelVersion>4.0.0</modelVersion>
+    <name>Schematron</name>
+    <groupId>se.pagero</groupId>
+    <artifactId>schematron</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <scm>
-        <connection>scm:git:ssh://github.com/bardl/schematron.git</connection>
-        <developerConnection>scm:git:git@github.com:bardl/schematron.git</developerConnection>
-        <url>git@github.com:bardl/schematron.git</url>
-    </scm>
+        <connection>scm:git:ssh://github.com/bardl/Schematron.git</connection>
+        <developerConnection>scm:git:git@github.com:bardl/Schematron.git</developerConnection>
+        <url>git@github.com:bardl/Schematron.git</url>
+    </scm>   
 
     <distributionManagement>
-    <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>pagero-releases</id>
-      <url>http://vpogit:8080/nexus/content/repositories/releases/</url>
-    </repository>
-    <snapshotRepository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>pagero-snapshots</id>
-      <url>http://vpogit:8080/nexus/content/repositories/snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
-    
-	<modules>
+        <repository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>pagero-releases</id>
+            <url>http://vpogit:8080/nexus/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>pagero-snapshots</id>
+            <url>http://vpogit:8080/nexus/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <modules>
         <module>validator</module>
-		<module>maven-plugin</module>
+        <module>maven-plugin</module>
         <module>compiler</module>
     </modules>
-  
-	<dependencyManagement>
-		<dependencies>
-			<dependency>
-				<groupId>junit</groupId>
-				<artifactId>junit</artifactId>
-				<version>4.4</version>
-				<scope>test</scope>
-			</dependency>  
-			
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.14</version>
-			</dependency>
-			
-			<dependency>
-				<groupId>net.sourceforge.saxon</groupId>
-				<artifactId>saxon</artifactId>
-				<version>9.1.0.8</version>
-			</dependency>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>4.4</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>log4j</groupId>
+                <artifactId>log4j</artifactId>
+                <version>1.2.14</version>
+            </dependency>
+
+            <dependency>
+                <groupId>net.sourceforge.saxon</groupId>
+                <artifactId>saxon</artifactId>
+                <version>9.1.0.8</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.maven</groupId>
@@ -76,11 +76,11 @@
                 <version>2.0</version>
             </dependency>
 
-		</dependencies>
+        </dependencies>
 
-        
+
     </dependencyManagement>
-    
+
     <build>
         <plugins>
             <plugin>
@@ -150,25 +150,25 @@
             </plugin>
         </plugins>
     </build>
-	
+
     <repositories>
-		<repository>
-			<id>milyn</id>
-			<url>http://dist.codehaus.org</url>
-		</repository>
-		<repository>
-			<id>black-bean</id>
-			<url>http://repo1.maven.org/maven2</url>
-		</repository>
-		<repository>
-			<id>dubois</id>
-			<url>http://julien.dubois.free.fr/maven2</url>
-		</repository>
-		<repository>
-			<id>repo2</id>
-			<url>http://repo2.maven.org/maven2</url>
-		</repository>
-		
-        
+        <repository>
+            <id>milyn</id>
+            <url>http://dist.codehaus.org</url>
+        </repository>
+        <repository>
+            <id>black-bean</id>
+            <url>http://repo1.maven.org/maven2</url>
+        </repository>
+        <repository>
+            <id>dubois</id>
+            <url>http://julien.dubois.free.fr/maven2</url>
+        </repository>
+        <repository>
+            <id>repo2</id>
+            <url>http://repo2.maven.org/maven2</url>
+        </repository>
+
+
     </repositories>
 </project>
