@@ -5,7 +5,7 @@
     <groupId>org.schematron</groupId>
     <artifactId>schematron</artifactId>
     <packaging>pom</packaging>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
 
     <scm>
         <connection>scm:git:ssh://github.com/bardl/Schematron.git</connection>
