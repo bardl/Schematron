@@ -98,8 +98,8 @@ public class SchematronLoader {
     }
 
     private Transformer createTransformer(final XsltVersion xsltVersion, Source xsltSource) throws TransformerConfigurationException {
-        System.setProperty( PROPERTY_TRAX_IMPLEMENTATION, SAXON_TRAX_CLASS );
-        TransformerFactory factory = TransformerFactory.newInstance();
+//        System.setProperty( PROPERTY_TRAX_IMPLEMENTATION, SAXON_TRAX_CLASS );
+        TransformerFactory factory = TransformerFactory.newInstance(SAXON_TRAX_CLASS, null);
         factory.setURIResolver(new URIResolver() {
             public Source resolve(String href, String base) throws TransformerException {
                 InputStream inputStream = getClass().getClassLoader().getResourceAsStream(xsltVersion.getResourcePath() + "/" + href);
