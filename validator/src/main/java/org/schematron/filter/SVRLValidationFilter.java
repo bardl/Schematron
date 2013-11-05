@@ -1,8 +1,8 @@
 package org.schematron.filter;
 
+import org.schematron.model.Assertion;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.schematron.exception.SchematronException;
 
 /**
@@ -49,22 +49,19 @@ public class SVRLValidationFilter extends ValidationFilter {
         if (currentElement.name.equals("text")) {
             StringBuilder message = new StringBuilder();
             message.append(ch, start, length);
-            message.append(" Failed when performing test [");
+            message.append(" ");
+            message.append(currentElement.parent.getLevel().getDisplayString());
+            message.append(" when performing test [");
             message.append(currentElement.parent.getMessage());
             message.append("].");
 
-            if (getErrorHandler() != null) {
-                if (currentElement.getLevel() == ValidationLevel.ERROR) {
-                    getErrorHandler().error(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
-                } else if (currentElement.getLevel() == ValidationLevel.WARN) {
-                    getErrorHandler().warning(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
-                } else if (currentElement.getLevel() == ValidationLevel.FATAL) {
-                    getErrorHandler().fatalError(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
-                }
+            if (currentElement.parent.getLevel() == ValidationLevel.ERROR) {
+                getSchematronResult().getErrors().add(new Assertion(currentElement.parent.name, message.toString()));
+            } else if (currentElement.parent.getLevel() == ValidationLevel.WARN) {
+                getSchematronResult().getWarnings().add(new Assertion(currentElement.parent.name, message.toString()));
+            } else if (currentElement.parent.getLevel() == ValidationLevel.FATAL) {
+                getSchematronResult().getFatals().add(new Assertion(currentElement.parent.name, message.toString()));
             }
-
-            errorReport.append(message);
-            errorReport.append("\n");
         }
 
         super.characters(ch, start, length);

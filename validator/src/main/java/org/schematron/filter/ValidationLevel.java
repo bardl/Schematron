@@ -5,7 +5,17 @@ package org.schematron.filter;
  * @author bard.langoy
  */
 public enum ValidationLevel {
-    WARN,
-    ERROR,
-    FATAL;
+    WARN("Warning"),
+    ERROR("Error"),
+    FATAL("Fatal error");
+
+    private String displayString;
+
+    ValidationLevel(String displayString) {
+        this.displayString = displayString;
+    }
+
+    public String getDisplayString() {
+        return displayString;
+    }
 }

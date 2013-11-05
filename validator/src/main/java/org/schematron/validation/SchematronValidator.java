@@ -1,6 +1,8 @@
 package org.schematron.validation;
 
 import org.apache.log4j.Logger;
+import org.schematron.model.Assertion;
+import org.schematron.model.SchematronResult;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.*;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -10,6 +12,7 @@ import org.schematron.filter.ValidationFilter;
 import org.schematron.filter.ValidationFilterFactory;
 import org.schematron.loader.SchematronLoader;
 
+import javax.xml.bind.JAXBContext;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
@@ -27,18 +30,16 @@ import java.io.OutputStreamWriter;
  */
 public class SchematronValidator extends Validator {
 
-    public static final int REPORT_IDENTIFY_LENGTH = 1000;
+
 
     static Logger logger = Logger.getLogger(SchematronLoader.class);
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
-    private Transformer transformer;
+    private SchematronTransformer transformer;
 
     public SchematronValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
         this.resourceResolver = resolver;
-
-        SchematronLoader loader = new SchematronLoader();
-        this.transformer = loader.loadSchema(inputSource, version, resolver, compileSchematron);
+        this.transformer = new SchematronTransformer(inputSource, version, resolver, compileSchematron);
     }
 
     @Override
@@ -48,20 +49,25 @@ public class SchematronValidator extends Validator {
 
     @Override
     public void validate(Source source, Result result) throws SAXException, IOException {
-        try {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            transformer.setParameter("terminate", "no");
-            transformer.transform(source, new StreamResult(baos));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        SchematronResult schematronResult = transformer.transform(source);
 
-            byte[] reportBytes = baos.toByteArray();
-            ValidationFilter filter = createAndInitializeFilter(new String(reportBytes, 0, Math.min(REPORT_IDENTIFY_LENGTH, reportBytes.length)));
-            filter.parse(new InputSource(new ByteArrayInputStream(reportBytes)));
+        insertSchematronResultToErrorHandler(schematronResult);
 
-            if (!filter.isValid()) {
-                throw new SAXException(filter.getErrorReport());
-            }
-        } catch (TransformerException e) {
-            throw new SAXException(e.getMessage(), e);
+        if (!schematronResult.isValid()) {
+            throw new SAXException(schematronResult.toXml());
+        }
+    }
+
+    private void insertSchematronResultToErrorHandler(SchematronResult schematronResult) throws SAXException {
+        for (Assertion assertion : schematronResult.getWarnings()) {
+            getErrorHandler().warning(new SAXParseException(assertion.getDescription(), assertion.getName(), assertion.getName(), -1, -1));
+        }
+        for (Assertion assertion : schematronResult.getErrors()) {
+            getErrorHandler().error(new SAXParseException(assertion.getDescription(), assertion.getName(), assertion.getName(), -1, -1));
+        }
+        for (Assertion assertion : schematronResult.getFatals()) {
+            getErrorHandler().fatalError(new SAXParseException(assertion.getDescription(), assertion.getName(), assertion.getName(), -1, -1));
         }
     }
 
@@ -85,13 +91,6 @@ public class SchematronValidator extends Validator {
         return resourceResolver;
     }
 
-    private ValidationFilter createAndInitializeFilter(String report) throws SAXException {
-        ValidationFilter filter = ValidationFilterFactory.identifyAndCreateReportValidator(report);
-        filter.setErrorHandler(errorHandler);
-        filter.setParent(XMLReaderFactory.createXMLReader());
-        filter.setContentHandler(new XMLWriter(new OutputStreamWriter(new ByteArrayOutputStream())));
-        filter.setErrorHandler(getErrorHandler());
-        return filter;
-    }
+
 
 }

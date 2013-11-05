@@ -18,5 +18,5 @@
   <include href="abstract/NONAT-T17.sch"/>
   <!-- Data Binding parameters -->
   <!-- ======================= -->
-  <include href="UBL/NONAT-ubl-T17.sch"/>
+  <include href="UBL/NONAT-UBL-T17.sch"/>
 </schema>

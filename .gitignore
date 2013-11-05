@@ -6,6 +6,7 @@ classes/
 **/.classpath
 **/.project
 **/.settings/
+**/.idea
 target/
 **/.checkstyle
 **/.checkstyle-rules

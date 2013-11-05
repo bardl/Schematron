@@ -1,8 +1,8 @@
 package org.schematron.filter;
 
+import org.schematron.model.Assertion;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
@@ -45,10 +45,7 @@ public class OIOUBLValidationFilter extends ValidationFilter {
             message.append(currentElement.getChildElementWithName(CONDITION_ELEMENT).getMessage());
             message.append("] in context [" + currentElement.getMessage() + "].");
 
-            getErrorHandler().error(new SAXParseException(message.toString(), currentElement.name, currentElement.name, -1, -1));
-
-            errorReport.append(message);
-            errorReport.append("\n");
+            getSchematronResult().getErrors().add(new Assertion(currentElement.name, message.toString()));
         }
         currentElement = currentElement.parent;
         super.endElement(namespaceURI, localName, qualifiedName);

@@ -22,7 +22,7 @@ public class OIOUBLValidationFilterTest {
         validationFilter.parse(new InputSource(inputStream));
 
         Assert.assertFalse(validationFilter.isValid());
-        Assert.assertEquals(validationFilter.getErrorReport(), "[F-INV001] Root element must be Invoice, failed when performing test [local-name(*) = 'Invoice'] in context [/].\n");
+        Assert.assertEquals("[F-INV001] Root element must be Invoice, failed when performing test [local-name(*) = 'Invoice'] in context [/].\n", validationFilter.getSchematronResult().toString());
     }
 
     @Test
