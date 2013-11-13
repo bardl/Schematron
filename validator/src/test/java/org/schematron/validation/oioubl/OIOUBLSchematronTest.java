@@ -2,8 +2,8 @@ package org.schematron.validation.oioubl;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.xml.sax.SAXException;
 import org.schematron.validation.BaseSchematronTest;
+import org.xml.sax.SAXException;
 
 import javax.xml.transform.stream.StreamSource;
 import java.io.IOException;

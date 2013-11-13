@@ -3,7 +3,6 @@ package org.schematron.validation;
 import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
 import org.schematron.model.SchematronResult;
-import org.schematron.model.SchematronResultImpl;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

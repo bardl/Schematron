@@ -1,11 +1,12 @@
 package org.schematron.validation;
 
-import org.apache.log4j.Logger;
 import org.schematron.commons.XsltVersion;
 import org.schematron.loader.SchematronLoader;
 import org.schematron.model.Assertion;
 import org.schematron.model.SchematronResult;
 import org.schematron.model.SchematronResultImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
@@ -24,7 +25,7 @@ import java.io.IOException;
  * @author bard.langoy 
  */
 public class SchematronJavaxValidator extends Validator {
-    static Logger logger = Logger.getLogger(SchematronLoader.class);
+    static Logger logger = LoggerFactory.getLogger(SchematronLoader.class);
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
     private SchematronTransformerImpl transformer;

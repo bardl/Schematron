@@ -6,7 +6,6 @@ import org.schematron.filter.ValidationFilter;
 import org.schematron.filter.ValidationFilterFactory;
 import org.schematron.loader.SchematronLoader;
 import org.schematron.model.SchematronResult;
-import org.schematron.model.SchematronResultImpl;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

@@ -1,9 +1,9 @@
 package org.schematron.validation;
 
+import org.schematron.commons.Constants;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
-import org.schematron.commons.Constants;
 
 import javax.xml.transform.Source;
 import javax.xml.validation.Schema;

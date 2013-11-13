@@ -20,10 +20,11 @@ public class ValidationFilterFactoryTest {
     }
 
     private String getReportFragment(String reportName) throws IOException {
-        byte[] report = new byte[SchematronTransformerImpl.REPORT_IDENTIFY_LENGTH];
+        byte[] report = null;
         InputStream inputStream = null;
         try {
             inputStream = getClass().getClassLoader().getResourceAsStream("org/schematron/filter/" + reportName);
+            report = new byte[Math.min(SchematronTransformerImpl.REPORT_IDENTIFY_LENGTH, inputStream.available())];
             inputStream.read(report);
         } finally {
             if (inputStream != null) {

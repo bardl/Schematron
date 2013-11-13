@@ -1,9 +1,9 @@
 package org.schematron.filter;
 
+import org.schematron.exception.SchematronException;
 import org.schematron.model.Assertion;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
-import org.schematron.exception.SchematronException;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is

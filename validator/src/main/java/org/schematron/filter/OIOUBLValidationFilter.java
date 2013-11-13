@@ -53,6 +53,6 @@ public class OIOUBLValidationFilter extends ValidationFilter {
 
     @Override
     public String getMatchPattern() {
-        return ".*?(<Schematron ).*?(<Information>Checking OIOUBL).*";
+        return ".*?(<Schematron).*?(<Information>Checking OIOUBL).*";
     }
 }

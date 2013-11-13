@@ -1,12 +1,13 @@
 package org.schematron.filter;
 
-import org.apache.log4j.Logger;
+import org.schematron.commons.Constants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 import org.xml.sax.helpers.XMLReaderFactory;
-import org.schematron.commons.Constants;
 
 import java.net.URL;
 
@@ -17,7 +18,7 @@ import java.net.URL;
  */
 public class InclusionFilter extends XMLFilterImpl {
 
-    static Logger logger = Logger.getLogger(InclusionFilter.class);
+    static Logger logger = LoggerFactory.getLogger(InclusionFilter.class);
     private boolean outermost;
     private URL base;
 

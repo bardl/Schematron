@@ -7,11 +7,8 @@ import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.transform.Source;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
-import javax.xml.validation.Schema;
-import java.io.IOException;
 
 /**
  * SchematronValidatorFactory is a factory that creates {@link SchematronValidator} objects.
@@ -20,7 +17,7 @@ import java.io.IOException;
 public class SchematronValidatorFactory {
 
     private LSResourceResolver resourceResolver;
-    private boolean compileSchematron = true;
+    private boolean compileSchematron = false;
 
     public SchematronValidator newSchematronValidator(Source source) throws SchematronException {
         try {

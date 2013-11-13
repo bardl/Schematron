@@ -1,16 +1,16 @@
 package org.schematron;
 
 import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
+import org.schematron.validation.SchematronErrorHandler;
+import org.schematron.validation.SchematronSchemaFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.schematron.validation.SchematronErrorHandler;
-import org.schematron.validation.SchematronSchemaFactory;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
@@ -23,22 +23,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Properties;
 
 public class Main {
-    static Logger logger = Logger.getLogger(Main.class);
+    static Logger logger = LoggerFactory.getLogger(Main.class);
 
-    static {
-        // set up log message format, etc.
-        String logLvl = "DEBUG";
-        Properties p = new Properties();
-        p.setProperty("log4j.rootCategory", logLvl + ",stderr");
-        p.setProperty("log4j.appender.stderr", "org.apache.log4j.ConsoleAppender");
-        p.setProperty("log4j.appender.stderr.layout", "org.apache.log4j.PatternLayout");
-        p.setProperty("log4j.appender.stderr.target", "System.err");
-        p.setProperty("log4j.appender.stderr.layout.ConversionPattern", "%p %m%n");
-        PropertyConfigurator.configure(p);
-    }
 
     public static void main(String[] args) throws IOException, SAXException, TransformerException {
 //        testSchemaValidation();

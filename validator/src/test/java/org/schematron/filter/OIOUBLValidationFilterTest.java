@@ -2,11 +2,11 @@ package org.schematron.filter;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.schematron.commons.XMLWriter;
+import org.schematron.validation.SchematronErrorHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLReaderFactory;
-import org.schematron.commons.XMLWriter;
-import org.schematron.validation.SchematronErrorHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
