@@ -7,7 +7,7 @@ public class SchematronResultTest {
 
     @Test
     public void allValuesFromSchematronResultShouldBeWrittenToXml() {
-        SchematronResult result = new SchematronResult();
+        SchematronResultImpl result = new SchematronResultImpl();
         result.getWarnings().add(new Assertion("name1", "description1"));
         result.getErrors().add(new Assertion("name2", "description2"));
         result.getErrors().add(new Assertion("name3", "description3"));
@@ -18,7 +18,7 @@ public class SchematronResultTest {
 
     @Test
     public void allDescriptionsFromSchematronResultShouldBeWrittenToString() {
-        SchematronResult result = new SchematronResult();
+        SchematronResultImpl result = new SchematronResultImpl();
         result.getWarnings().add(new Assertion("name1", "description1"));
         result.getErrors().add(new Assertion("name2", "description2"));
         result.getErrors().add(new Assertion("name3", "description3"));

@@ -1,13 +1,16 @@
 package org.schematron.validation;
 
 import org.apache.log4j.Logger;
-import org.schematron.exception.SchematronException;
-import org.schematron.model.Assertion;
-import org.schematron.model.SchematronResult;
-import org.w3c.dom.ls.LSResourceResolver;
-import org.xml.sax.*;
 import org.schematron.commons.XsltVersion;
 import org.schematron.loader.SchematronLoader;
+import org.schematron.model.Assertion;
+import org.schematron.model.SchematronResult;
+import org.schematron.model.SchematronResultImpl;
+import org.w3c.dom.ls.LSResourceResolver;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
@@ -43,8 +46,12 @@ public class SchematronJavaxValidator extends Validator {
 
         insertSchematronResultToErrorHandler(schematronResult);
 
-        if (!schematronResult.isValid()) {
-            throw new SAXException(schematronResult.toXml());
+        if (!isValid(schematronResult)) {
+            if (schematronResult instanceof SchematronResultImpl) {
+                throw new SAXException(((SchematronResultImpl)schematronResult).toXml());
+            } else {
+                throw new SAXException(schematronResult.toString());
+            }
         }
     }
 
@@ -80,4 +87,7 @@ public class SchematronJavaxValidator extends Validator {
         return resourceResolver;
     }
 
+    public boolean isValid(SchematronResult result) {
+        return result.getErrors().isEmpty() && result.getFatals().isEmpty();
+    }
 }
