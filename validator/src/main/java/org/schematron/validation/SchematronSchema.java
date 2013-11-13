@@ -16,7 +16,7 @@ import javax.xml.validation.Validator;
 import javax.xml.validation.ValidatorHandler;
 
 /**
- * SchematronSchema contains schema for creating a {@link org.schematron.validation.SchematronValidator}
+ * SchematronSchema contains schema for creating a {@link SchematronValidator}
  * @author bard.langoy
  */
 public class SchematronSchema extends Schema {
@@ -50,7 +50,7 @@ public class SchematronSchema extends Schema {
         }
 
         try {
-            Validator validator = new SchematronValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, compileSchematron);
+            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, compileSchematron);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {

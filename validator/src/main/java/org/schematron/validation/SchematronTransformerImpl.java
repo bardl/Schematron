@@ -21,13 +21,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public class SchematronTransformer {
+public class SchematronTransformerImpl {
 
     public static final int REPORT_IDENTIFY_LENGTH = 1000;
 
     private Transformer transformer;
 
-    public SchematronTransformer(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
+    public SchematronTransformerImpl(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
         SchematronLoader loader = new SchematronLoader();
         this.transformer = loader.loadSchema(inputSource, version, resolver, compileSchematron);
     }

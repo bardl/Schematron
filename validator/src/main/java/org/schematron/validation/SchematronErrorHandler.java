@@ -6,7 +6,7 @@ import org.xml.sax.SAXParseException;
 
 /**
  * SchematronErrorHandler is a default ErrorHandler used for catching error events produced in
- * {@link org.schematron.validation.SchematronValidator}.
+ * {@link SchematronValidator}.
  * @author bard.langoy
  */
 public class SchematronErrorHandler implements ErrorHandler {
