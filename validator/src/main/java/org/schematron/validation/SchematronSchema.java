@@ -51,7 +51,7 @@ public class SchematronSchema extends Schema {
         }
 
         try {
-            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, compileSchematron);
+            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {

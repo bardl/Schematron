@@ -14,12 +14,11 @@ public class BaseSchematronTest {
 
     private static Validator validator;
 
-    public static void setupValidator(final String schematronPath, boolean compileSchematron, String mainSchemaName) throws SAXException {
+    public static void setupValidator(final String schematronPath, String mainSchemaName) throws SAXException {
 
         SchematronErrorHandler errorHandler = new SchematronErrorHandler();
 
         SchematronSchemaFactory factory = new SchematronSchemaFactory();
-        factory.setCompileSchematron(compileSchematron);
         factory.setErrorHandler(errorHandler);
         factory.setResourceResolver(new LSResourceResolver() {
 

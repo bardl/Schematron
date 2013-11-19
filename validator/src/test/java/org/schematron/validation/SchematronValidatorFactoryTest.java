@@ -19,7 +19,6 @@ public class SchematronValidatorFactoryTest {
     Source source = new StreamSource(inputStream);
 
     SchematronValidatorFactory factory = new SchematronValidatorFactory();
-    factory.setCompileSchematron(false);
     SchematronValidator validator = factory.newSchematronValidator(source);
     Assert.assertNotNull(validator);
   }

@@ -2,7 +2,7 @@ package org.schematron.filter;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.schematron.validation.SchematronTransformerImpl;
+import org.schematron.validation.SchematronTransformer;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,7 +24,7 @@ public class ValidationFilterFactoryTest {
         InputStream inputStream = null;
         try {
             inputStream = getClass().getClassLoader().getResourceAsStream("org/schematron/filter/" + reportName);
-            report = new byte[Math.min(SchematronTransformerImpl.REPORT_IDENTIFY_LENGTH, inputStream.available())];
+            report = new byte[Math.min(SchematronTransformer.REPORT_IDENTIFY_LENGTH, inputStream.available())];
             inputStream.read(report);
         } finally {
             if (inputStream != null) {

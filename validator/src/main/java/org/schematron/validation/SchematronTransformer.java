@@ -2,11 +2,11 @@ package org.schematron.validation;
 
 import org.schematron.commons.XMLWriter;
 import org.schematron.commons.XsltVersion;
+import org.schematron.exception.SchematronException;
 import org.schematron.filter.ValidationFilter;
 import org.schematron.filter.ValidationFilterFactory;
 import org.schematron.loader.SchematronLoader;
 import org.schematron.model.SchematronResult;
-import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLReaderFactory;
@@ -14,24 +14,25 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.stream.StreamResult;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 
-public class SchematronTransformerImpl {
+public class SchematronTransformer implements SchematronValidator {
 
     public static final int REPORT_IDENTIFY_LENGTH = 1000;
 
     private Transformer transformer;
 
-    public SchematronTransformerImpl(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
+    public SchematronTransformer(InputSource inputSource, XsltVersion version, URIResolver resolver) throws TransformerException, IOException, SAXException {
         SchematronLoader loader = new SchematronLoader();
-        this.transformer = loader.loadSchema(inputSource, version, resolver, compileSchematron);
+        this.transformer = loader.loadSchema(inputSource, version, resolver);
     }
 
-    public SchematronResult transform(Source source) throws SAXException, IOException {
+    private SchematronResult transform(Source source) throws SAXException, IOException {
         try {
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             transformer.setParameter("terminate", "no");
@@ -56,5 +57,13 @@ public class SchematronTransformerImpl {
         filter.parse(new InputSource(new ByteArrayInputStream(reportBytes)));
 
         return filter.getSchematronResult();
+    }
+
+    public SchematronResult validate(Source source) throws SchematronException {
+        try {
+            return transform(source);
+        } catch (Exception e) {
+            throw new SchematronException(e.getMessage(), e);
+        }
     }
 }

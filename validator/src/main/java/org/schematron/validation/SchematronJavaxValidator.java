@@ -5,6 +5,7 @@ import org.schematron.loader.SchematronLoader;
 import org.schematron.model.Assertion;
 import org.schematron.model.SchematronResult;
 import org.schematron.model.SchematronResultImpl;
+import org.schematron.resolver.SchemaURIResolver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.ls.LSResourceResolver;
@@ -17,7 +18,6 @@ import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.TransformerException;
 import javax.xml.validation.Validator;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 /**
@@ -28,11 +28,11 @@ public class SchematronJavaxValidator extends Validator {
     static Logger logger = LoggerFactory.getLogger(SchematronLoader.class);
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
-    private SchematronTransformerImpl transformer;
+    private SchematronTransformer transformer;
 
-    public SchematronJavaxValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, boolean compileSchematron) throws TransformerException, IOException, SAXException {
+    public SchematronJavaxValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver) throws TransformerException, IOException, SAXException {
         this.resourceResolver = resolver;
-        this.transformer = new SchematronTransformerImpl(inputSource, version, resolver, compileSchematron);
+        this.transformer = new SchematronTransformer(inputSource, version, new SchemaURIResolver(resolver));
     }
 
     @Override
@@ -42,8 +42,7 @@ public class SchematronJavaxValidator extends Validator {
 
     @Override
     public void validate(Source source, Result result) throws SAXException, IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        SchematronResult schematronResult = transformer.transform(source);
+        SchematronResult schematronResult = transformer.validate(source);
 
         insertSchematronResultToErrorHandler(schematronResult);
 

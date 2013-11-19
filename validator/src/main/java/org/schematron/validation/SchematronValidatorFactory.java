@@ -2,11 +2,12 @@ package org.schematron.validation;
 
 import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
-import org.w3c.dom.ls.LSResourceResolver;
+import org.schematron.resolver.NullResourceResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.transform.Source;
+import javax.xml.transform.URIResolver;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.transform.stream.StreamSource;
 
@@ -16,30 +17,26 @@ import javax.xml.transform.stream.StreamSource;
  */
 public class SchematronValidatorFactory {
 
-    private LSResourceResolver resourceResolver;
-    private boolean compileSchematron = false;
+    private URIResolver resourceResolver;
 
     public SchematronValidator newSchematronValidator(Source source) throws SchematronException {
         try {
-            return new SchematronResultValidator(getInputSource(source), XsltVersion.XSL_VERSION_2, resourceResolver, compileSchematron);
+            URIResolver resolver = getResourceResolver();
+            if (resolver == null) {
+                resolver = new NullResourceResolver();
+            }
+
+            return new SchematronTransformer(getInputSource(source), XsltVersion.XSL_VERSION_2, resolver);
         } catch (Exception e) {
             throw new SchematronException("Unable to instantiate SchematronValidator.", e);
         }
     }
 
-    public boolean isCompileSchematron() {
-        return compileSchematron;
-    }
-
-    public void setCompileSchematron(boolean compileSchematron) {
-        this.compileSchematron = compileSchematron;
-    }
-
-    public void setResourceResolver(LSResourceResolver resourceResolver) {
+    public void setResourceResolver(URIResolver resourceResolver) {
         this.resourceResolver = resourceResolver;
     }
 
-    public LSResourceResolver getResourceResolver() {
+    public URIResolver getResourceResolver() {
         return resourceResolver;
     }
 

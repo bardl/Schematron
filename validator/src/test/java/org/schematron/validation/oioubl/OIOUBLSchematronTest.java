@@ -20,7 +20,7 @@ public class OIOUBLSchematronTest extends BaseSchematronTest {
 
     @BeforeClass
     public static void setupOIOUBLValidator() throws SAXException {
-        setupValidator(SCHEMATRON_PATH, false, "OIOUBL_Invoice_Schematron.xsl");
+        setupValidator(SCHEMATRON_PATH, "OIOUBL_Invoice_Schematron.xsl");
     }
 
     @Test

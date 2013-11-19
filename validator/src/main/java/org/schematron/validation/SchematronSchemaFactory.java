@@ -58,12 +58,4 @@ public class SchematronSchemaFactory extends SchemaFactory {
     public Schema newSchema() throws SAXException {
         throw new SAXException("Not implemented support for SchematronSchemaFactory.newSchema(void) method.");
     }
-
-    public boolean isCompileSchematron() {
-        return compileSchematron;
-    }
-
-    public void setCompileSchematron(boolean compileSchematron) {
-        this.compileSchematron = compileSchematron;
-    }
 }
