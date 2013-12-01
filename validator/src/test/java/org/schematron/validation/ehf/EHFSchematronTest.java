@@ -20,7 +20,7 @@ public class EHFSchematronTest extends BaseSchematronTest {
 
     @BeforeClass
     public static void setupEHFValidator() throws SAXException {
-        setupValidator(SCHEMATRON_PATH, "NORWAY-UBL-T10.xsl");
+        setupValidator(SCHEMATRON_PATH, "NORWAY-UBL-T10.xsl", null);
     }
 
     @Test

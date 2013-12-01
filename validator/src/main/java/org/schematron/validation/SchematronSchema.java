@@ -2,6 +2,7 @@ package org.schematron.validation;
 
 import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
+import org.schematron.filter.SchematronResultTransformer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.ls.LSResourceResolver;
@@ -27,17 +28,17 @@ public class SchematronSchema extends Schema {
     Source[] sources;
     LSResourceResolver resolver;
     ErrorHandler errorHandler;
-    boolean compileSchematron;
+    SchematronResultTransformer schematronResultTransformer;
 
-    public SchematronSchema(Source source, LSResourceResolver resolver, ErrorHandler errorHandler, boolean compileSchematron) {
-        this(new Source[]{source}, resolver, errorHandler, compileSchematron);
+    public SchematronSchema(Source source, LSResourceResolver resolver, ErrorHandler errorHandler, SchematronResultTransformer schematronResultTransformer) {
+        this(new Source[]{source}, resolver, errorHandler, schematronResultTransformer);
     }
 
-    public SchematronSchema(Source[] sources, LSResourceResolver resolver, ErrorHandler errorHandler, boolean compileSchematron) {
+    public SchematronSchema(Source[] sources, LSResourceResolver resolver, ErrorHandler errorHandler, SchematronResultTransformer schematronResultTransformer) {
         this.sources = sources;
         this.resolver = resolver;
         this.errorHandler = errorHandler;
-        this.compileSchematron = compileSchematron;
+        this.schematronResultTransformer = schematronResultTransformer;
     }
 
     @Override
@@ -51,7 +52,7 @@ public class SchematronSchema extends Schema {
         }
 
         try {
-            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver);
+            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, schematronResultTransformer);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {

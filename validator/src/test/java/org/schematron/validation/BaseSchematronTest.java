@@ -1,6 +1,7 @@
 package org.schematron.validation;
 
 import org.junit.Assert;
+import org.schematron.filter.SchematronResultTransformer;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
@@ -14,12 +15,13 @@ public class BaseSchematronTest {
 
     private static Validator validator;
 
-    public static void setupValidator(final String schematronPath, String mainSchemaName) throws SAXException {
+    public static void setupValidator(final String schematronPath, String mainSchemaName, SchematronResultTransformer schematronResultTransformer) throws SAXException {
 
         SchematronErrorHandler errorHandler = new SchematronErrorHandler();
 
         SchematronSchemaFactory factory = new SchematronSchemaFactory();
         factory.setErrorHandler(errorHandler);
+        factory.setSchematronResultTransformer(schematronResultTransformer);
         factory.setResourceResolver(new LSResourceResolver() {
 
             public LSInput resolveResource(final String type, final String namespaceURI, final String publicId, final String systemId, final String baseURI) {

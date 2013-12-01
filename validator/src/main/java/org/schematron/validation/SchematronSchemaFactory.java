@@ -1,6 +1,7 @@
 package org.schematron.validation;
 
 import org.schematron.commons.Constants;
+import org.schematron.filter.SchematronResultTransformer;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
@@ -17,7 +18,7 @@ public class SchematronSchemaFactory extends SchemaFactory {
 
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
-    private boolean compileSchematron = true;
+    private SchematronResultTransformer schematronResultTransformer;
 
     @Override
     public boolean isSchemaLanguageSupported(String schemaLanguage) {
@@ -44,14 +45,22 @@ public class SchematronSchemaFactory extends SchemaFactory {
         return resourceResolver;
     }
 
+    public SchematronResultTransformer getSchematronResultTransformer() {
+        return schematronResultTransformer;
+    }
+
+    public void setSchematronResultTransformer(SchematronResultTransformer schematronResultTransformer) {
+        this.schematronResultTransformer = schematronResultTransformer;
+    }
+
     @Override
     public Schema newSchema(Source schema) throws SAXException {
-        return new SchematronSchema(schema, resourceResolver, errorHandler, compileSchematron);
+        return new SchematronSchema(schema, resourceResolver, errorHandler, schematronResultTransformer);
     }
 
     @Override
     public Schema newSchema(Source[] schemas) throws SAXException {
-        return new SchematronSchema(schemas, resourceResolver, errorHandler, compileSchematron);
+        return new SchematronSchema(schemas, resourceResolver, errorHandler, schematronResultTransformer);
     }
 
     @Override

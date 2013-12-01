@@ -1,6 +1,7 @@
 package org.schematron.validation;
 
 import org.schematron.commons.XsltVersion;
+import org.schematron.filter.SchematronResultTransformer;
 import org.schematron.loader.SchematronLoader;
 import org.schematron.model.Assertion;
 import org.schematron.model.SchematronResult;
@@ -29,10 +30,12 @@ public class SchematronJavaxValidator extends Validator {
     private ErrorHandler errorHandler;
     private LSResourceResolver resourceResolver;
     private SchematronTransformer transformer;
+    private SchematronResultTransformer schematronResultTransformer;
 
-    public SchematronJavaxValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver) throws TransformerException, IOException, SAXException {
+    public SchematronJavaxValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, SchematronResultTransformer schematronResultTransformer) throws TransformerException, IOException, SAXException {
         this.resourceResolver = resolver;
         this.transformer = new SchematronTransformer(inputSource, version, new SchemaURIResolver(resolver));
+        this.schematronResultTransformer = schematronResultTransformer;
     }
 
     @Override
@@ -42,7 +45,12 @@ public class SchematronJavaxValidator extends Validator {
 
     @Override
     public void validate(Source source, Result result) throws SAXException, IOException {
-        SchematronResult schematronResult = transformer.validate(source);
+        SchematronResult schematronResult;
+        if (schematronResultTransformer != null) {
+            schematronResult = transformer.validate(source, schematronResultTransformer);
+        } else {
+            schematronResult = transformer.validate(source);
+        }
 
         insertSchematronResultToErrorHandler(schematronResult);
 

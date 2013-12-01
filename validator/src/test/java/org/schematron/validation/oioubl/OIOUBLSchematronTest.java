@@ -2,6 +2,7 @@ package org.schematron.validation.oioubl;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.schematron.filter.OIOUBLSchematronResultTransformer;
 import org.schematron.validation.BaseSchematronTest;
 import org.xml.sax.SAXException;
 
@@ -20,7 +21,7 @@ public class OIOUBLSchematronTest extends BaseSchematronTest {
 
     @BeforeClass
     public static void setupOIOUBLValidator() throws SAXException {
-        setupValidator(SCHEMATRON_PATH, "OIOUBL_Invoice_Schematron.xsl");
+        setupValidator(SCHEMATRON_PATH, "OIOUBL_Invoice_Schematron.xsl", new OIOUBLSchematronResultTransformer());
     }
 
     @Test
@@ -30,7 +31,7 @@ public class OIOUBLSchematronTest extends BaseSchematronTest {
     }
     
     @Test
-    public void incorrectEHFAccordingToRequirement_1() throws IOException {
+    public void incorrectEHFAccordingToRequirement_1() throws IOException, SAXException {
         testIncorrectFile(testfilePath + "InvalidAmounts.xml", "F-INV001");
     }
 

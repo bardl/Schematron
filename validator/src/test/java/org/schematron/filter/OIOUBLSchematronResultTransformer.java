@@ -1,8 +1,18 @@
 package org.schematron.filter;
 
+import org.schematron.commons.XMLWriter;
+import org.schematron.exception.SchematronException;
 import org.schematron.model.Assertion;
+import org.schematron.model.SchematronResult;
+import org.schematron.model.SchematronResultImpl;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
@@ -10,11 +20,31 @@ import org.xml.sax.SAXException;
  * {@link org.schematron.validation.SchematronValidator}.
  * @author bard.langoy
  */
-public class OIOUBLValidationFilter extends ValidationFilter {
+public class OIOUBLSchematronResultTransformer extends XMLFilterImpl implements SchematronResultTransformer {
+
+    protected ElementPath currentElement;
+    protected boolean valid = true;
+    protected SchematronResultImpl result = new SchematronResultImpl();
 
     private final String ERROR_ELEMENT = "Error";
     private final String DESCRIPTION_ELEMENT = "Description";
     private final String CONDITION_ELEMENT = "Pattern";
+
+    public OIOUBLSchematronResultTransformer() throws SAXException {
+        super();
+        setParent(XMLReaderFactory.createXMLReader());
+        setContentHandler(new XMLWriter(new OutputStreamWriter(new ByteArrayOutputStream())));
+    }
+
+    public SchematronResult transform(InputSource source) throws SchematronException {
+        result = new SchematronResultImpl();
+        try {
+            parse(source);
+            return result;
+        } catch (Exception e) {
+            throw new SchematronException("Error occured when transforming OIOUBL validation report to SchematronResult.", e);
+        }
+    }
 
     public void startElement(String namespaceURI, String localName, String qualifiedName, Attributes atts) throws SAXException {
         currentElement = new ElementPath(localName, currentElement);
@@ -43,16 +73,11 @@ public class OIOUBLValidationFilter extends ValidationFilter {
             message.append(currentElement.getChildElementWithName(DESCRIPTION_ELEMENT).getMessage());
             message.append(", failed when performing test [");
             message.append(currentElement.getChildElementWithName(CONDITION_ELEMENT).getMessage());
-            message.append("] in context [" + currentElement.getMessage() + "].");
+            message.append("] in context [").append(currentElement.getMessage()).append("].");
 
-            getSchematronResult().getErrors().add(new Assertion(currentElement.name, message.toString()));
+            result.getErrors().add(new Assertion(currentElement.name, message.toString()));
         }
         currentElement = currentElement.parent;
         super.endElement(namespaceURI, localName, qualifiedName);
-    }
-
-    @Override
-    public String getMatchPattern() {
-        return ".*?(<Schematron).*?(<Information>Checking OIOUBL).*";
     }
 }

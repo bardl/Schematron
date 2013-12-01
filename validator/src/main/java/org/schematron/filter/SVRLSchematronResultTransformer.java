@@ -1,9 +1,18 @@
 package org.schematron.filter;
 
+import org.schematron.commons.XMLWriter;
 import org.schematron.exception.SchematronException;
 import org.schematron.model.Assertion;
+import org.schematron.model.SchematronResult;
+import org.schematron.model.SchematronResultImpl;
 import org.xml.sax.Attributes;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.XMLFilterImpl;
+import org.xml.sax.helpers.XMLReaderFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
@@ -11,7 +20,27 @@ import org.xml.sax.SAXException;
  * {@link org.schematron.validation.SchematronValidator}.
  * @author bard.langoy
  */
-public class SVRLValidationFilter extends ValidationFilter {
+public class SVRLSchematronResultTransformer extends XMLFilterImpl implements SchematronResultTransformer {
+
+    protected ElementPath currentElement;
+    protected boolean valid = true;
+    protected SchematronResultImpl result;
+
+    public SVRLSchematronResultTransformer() throws SAXException {
+        super();
+        setParent(XMLReaderFactory.createXMLReader());
+        setContentHandler(new XMLWriter(new OutputStreamWriter(new ByteArrayOutputStream())));
+    }
+
+    public SchematronResult transform(InputSource source) throws SchematronException {
+        result = new SchematronResultImpl();
+        try {
+            parse(source);
+            return result;
+        } catch (Exception e) {
+            throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
+        }
+    }
 
     public void startElement(String namespaceURI, String localName, String qualifiedName, Attributes atts) throws SAXException {
         currentElement = new ElementPath(localName, currentElement);
@@ -56,11 +85,11 @@ public class SVRLValidationFilter extends ValidationFilter {
             message.append("].");
 
             if (currentElement.parent.getLevel() == ValidationLevel.ERROR) {
-                getSchematronResult().getErrors().add(new Assertion(currentElement.parent.name, message.toString()));
+                result.getErrors().add(new Assertion(currentElement.parent.name, message.toString()));
             } else if (currentElement.parent.getLevel() == ValidationLevel.WARN) {
-                getSchematronResult().getWarnings().add(new Assertion(currentElement.parent.name, message.toString()));
+                result.getWarnings().add(new Assertion(currentElement.parent.name, message.toString()));
             } else if (currentElement.parent.getLevel() == ValidationLevel.FATAL) {
-                getSchematronResult().getFatals().add(new Assertion(currentElement.parent.name, message.toString()));
+                result.getFatals().add(new Assertion(currentElement.parent.name, message.toString()));
             }
         }
 
@@ -70,10 +99,5 @@ public class SVRLValidationFilter extends ValidationFilter {
     public void endElement(String namespaceURI, String localName, String qualifiedName) throws SAXException {
         currentElement = currentElement.parent;
         super.endElement(namespaceURI, localName, qualifiedName);
-    }
-
-    @Override
-    public String getMatchPattern() {
-        return ".*?(http://purl.oclc.org/dsdl/svrl).*";
     }
 }
