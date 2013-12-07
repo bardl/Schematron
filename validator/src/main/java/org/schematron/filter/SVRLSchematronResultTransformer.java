@@ -69,7 +69,10 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
 
         private ValidationLevel convertFlagToValidationLevel(String value) {
             ValidationLevel result = null;
-            if ("warning".equals(value.toLowerCase())) {
+
+            if (value == null || value.isEmpty()) {
+                result = ValidationLevel.ERROR;
+            } else if ("warning".equals(value.toLowerCase())) {
                 result = ValidationLevel.WARN;
             } else if ("error".equals(value.toLowerCase())) {
                 result = ValidationLevel.ERROR;
@@ -88,7 +91,8 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
         public void characters(char[] ch, int start, int length) throws SAXException {
             if (currentElement.name.equals("text")) {
                 StringBuilder message = new StringBuilder();
-                message.append(ch, start, length);
+                String name = new String(ch, start, length).trim();
+                message.append(name);
                 message.append(" ");
                 message.append(currentElement.parent.getLevel().getDisplayString());
                 message.append(" when performing test [");
@@ -96,11 +100,11 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 message.append("].");
 
                 if (currentElement.parent.getLevel() == ValidationLevel.ERROR) {
-                    result.getErrors().add(new Assertion(currentElement.parent.name, message.toString()));
+                    result.getErrors().add(new Assertion(name, message.toString()));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.WARN) {
-                    result.getWarnings().add(new Assertion(currentElement.parent.name, message.toString()));
+                    result.getWarnings().add(new Assertion(name, message.toString()));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.FATAL) {
-                    result.getFatals().add(new Assertion(currentElement.parent.name, message.toString()));
+                    result.getFatals().add(new Assertion(name, message.toString()));
                 }
             }
 
