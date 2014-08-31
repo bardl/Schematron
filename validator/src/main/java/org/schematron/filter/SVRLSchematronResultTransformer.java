@@ -41,8 +41,8 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
             NodeList nList = doc.getElementsByTagName("svrl:failed-assert");
             for (int i = 0; i < nList.getLength(); i++) {
                 Node failedNode = nList.item(i);
-                String flag = getAttributeContent(failedNode, "flag");
-                String test = getAttributeContent(failedNode, "test");
+                String flag = getAttributeContent(failedNode, "flag", "error");
+                String test = getAttributeContent(failedNode, "test", "");
 
                 NodeList texts = failedNode.getChildNodes();
                 for (int j = 0; j < texts.getLength(); j++) {
@@ -63,11 +63,11 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
         }
     }
 
-    private String getAttributeContent(Node failedNode, String name) {
+    private String getAttributeContent(Node failedNode, String name, String defaultValue) {
         if (failedNode.getAttributes().getNamedItem(name) != null) {
             return failedNode.getAttributes().getNamedItem(name).getTextContent();
         } else {
-            return null;
+            return defaultValue;
         }
     }
 
