@@ -5,13 +5,20 @@ import org.schematron.exception.SchematronException;
 import org.schematron.model.Assertion;
 import org.schematron.model.SchematronResult;
 import org.schematron.model.SchematronResultImpl;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.XMLFilterImpl;
 import org.xml.sax.helpers.XMLReaderFactory;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.OutputStreamWriter;
 
 /**
@@ -24,10 +31,72 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
 
     public SchematronResult transform(InputSource source) throws SchematronException {
         try {
-            return new SVRLXMLFilter().transform(source);
+            SchematronResultImpl schematronResult = new SchematronResultImpl();
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(source);
+            doc.getDocumentElement().normalize();
+
+            NodeList nList = doc.getElementsByTagName("svrl:failed-assert");
+            for (int i = 0; i < nList.getLength(); i++) {
+                Node failedNode = nList.item(i);
+                String flag = failedNode.getAttributes().getNamedItem("flag").getTextContent();
+                String test = failedNode.getAttributes().getNamedItem("test").getTextContent();
+
+                NodeList texts = failedNode.getChildNodes();
+                for (int j = 0; j < texts.getLength(); j++) {
+                    Node current = texts.item(j);
+                    if (current.getNodeName().contentEquals("svrl:text")) {
+                        String failedText = current.getTextContent();
+                        addAssertion(schematronResult, failedText, flag, test);
+                    }
+                }
+            }
+            return schematronResult;
         } catch (SAXException e) {
             throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
+        } catch (ParserConfigurationException e) {
+            throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
+        } catch (IOException e) {
+            throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
         }
+    }
+
+    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test) {
+        StringBuilder message = getErrorDescription(text, getLevelDisplayText(level), test);
+
+        if (level.equalsIgnoreCase("warning")) {
+            schematronResult.getWarnings().add(new Assertion(text, message.toString()));
+        } else if (level.equalsIgnoreCase("error")) {
+            schematronResult.getErrors().add(new Assertion(text, message.toString()));
+        } else if (level.equalsIgnoreCase("fatal")) {
+            schematronResult.getFatals().add(new Assertion(text, message.toString()));
+        }
+    }
+
+    private String getLevelDisplayText(String level) {
+        if (level.equalsIgnoreCase("warning")) {
+            return "Warning";
+        } else if (level.equalsIgnoreCase("error")) {
+            return "Error";
+        } else if (level.equalsIgnoreCase("fatal")) {
+            return "Fatal error";
+        } else {
+            throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult. Unable to identify flag [" + level + "].");
+        }
+    }
+
+    private StringBuilder getErrorDescription(String text, String level, String test) {
+
+        StringBuilder message = new StringBuilder();
+        message.append(text);
+        message.append(" ");
+        message.append(level);
+        message.append(" when performing test [");
+        message.append(test);
+        message.append("].");
+        return message;
     }
 
     private class SVRLXMLFilter extends XMLFilterImpl {
