@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Schematron xmlns:ccts="urn:oasis:names:specification:ubl:schema:xsd:CoreComponentParameters-2"
+            xmlns:sdt="urn:oasis:names:specification:ubl:schema:xsd:SpecializedDatatypes-2"
+            xmlns:udt="urn:un:unece:uncefact:data:specification:UnqualifiedDataTypesSchemaModule:2"
+            xmlns:ext="urn:oasis:names:specification:ubl:schema:xsd:CommonExtensionComponents-2"
+            xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sch="http://www.ascc.net/xml/schematron"
+            xmlns:iso="http://purl.oclc.org/dsdl/schematron"
+            xmlns:doc="urn:oasis:names:specification:ubl:schema:xsd:OrderResponseSimple-2"
+            xmlns:cac="urn:oasis:names:specification:ubl:schema:xsd:CommonAggregateComponents-2"
+            xmlns:cbc="urn:oasis:names:specification:ubl:schema:xsd:CommonBasicComponents-2">
+    <Information>Checking OIOUBL-2.02 OrderResponseSimple, 2014-09-15, Version
+        1.6.0.15472</Information>
+    <Error context="cac:Party/cac:PartyTaxScheme">
+        <Pattern>cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ'</Pattern>
+        <Description>[F-LIB195] Invalid schemeID. Must be a valid scheme for
+            PartyTaxScheme/CompanyID</Description>
+        <Xpath>/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyTaxScheme[1]</Xpath>
+    </Error>
+    <Error context="cac:Party/cac:PartyLegalEntity">
+        <Pattern>cbc:CompanyID/@schemeID = 'DK:CVR' or cbc:CompanyID/@schemeID = 'DK:CPR' or
+            cbc:CompanyID/@schemeID = 'ZZZ'</Pattern>
+        <Description>[F-LIB189] Invalid schemeID. Must be a valid scheme for
+            PartyLegalEntity/CompanyID</Description>
+        <Xpath>/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyLegalEntity[1]</Xpath>
+    </Error>
+    <Error context="cac:Party/cac:PartyTaxScheme">
+        <Pattern>cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ'</Pattern>
+        <Description>[F-LIB195] Invalid schemeID. Must be a valid scheme for
+            PartyTaxScheme/CompanyID</Description>
+        <Xpath>/OrderResponseSimple[1]/cac:BuyerCustomerParty[1]/cac:Party[1]/cac:PartyTaxScheme[1]</Xpath>
+    </Error>
+</Schematron>

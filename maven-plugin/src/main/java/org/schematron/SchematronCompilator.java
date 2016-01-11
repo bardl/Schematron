@@ -4,13 +4,9 @@ import org.schematron.loader.SchematronCompiler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.schematron.commons.XsltVersion;
-import org.schematron.loader.SchematronLoader;
 
 import javax.xml.transform.TransformerException;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 
 public class SchematronCompilator {
 

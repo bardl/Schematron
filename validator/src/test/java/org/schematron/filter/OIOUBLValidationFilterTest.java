@@ -23,7 +23,23 @@ public class OIOUBLValidationFilterTest {
         SchematronResult schematronResult = validationFilter.transform(new InputSource(inputStream));
 
         Assert.assertFalse(!schematronResult.getFatals().isEmpty());
-        Assert.assertEquals("[F-INV001] Root element must be Invoice, failed when performing test [local-name(*) = 'Invoice'] in context [/].\n", schematronResult.toString());
+        Assert.assertEquals("[F-INV001] Root element must be Invoice Error when performing test [[local-name(*) = 'Invoice']].\n", schematronResult.toString());
+    }
+
+    @Test
+    public void testValidationReportWith3Errors() throws IOException, SAXException {
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream("org/schematron/filter/oioubl-validationreport-3-errors.xml");
+        SchematronResultTransformer validationFilter = new OIOUBLSchematronResultTransformer();
+        SchematronResult schematronResult = validationFilter.transform(new InputSource(inputStream));
+
+        Assert.assertFalse(!schematronResult.getFatals().isEmpty());
+        Assert.assertEquals("[F-LIB195] Invalid schemeID. Must be a valid scheme for\n" +
+                "            PartyTaxScheme/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyTaxScheme[1][cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ']].\n" +
+                "[F-LIB189] Invalid schemeID. Must be a valid scheme for\n" +
+                "            PartyLegalEntity/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyLegalEntity[1][cbc:CompanyID/@schemeID = 'DK:CVR' or cbc:CompanyID/@schemeID = 'DK:CPR' or\n" +
+                "            cbc:CompanyID/@schemeID = 'ZZZ']].\n" +
+                "[F-LIB195] Invalid schemeID. Must be a valid scheme for\n" +
+                "            PartyTaxScheme/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:BuyerCustomerParty[1]/cac:Party[1]/cac:PartyTaxScheme[1][cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ']].\n", schematronResult.toString());
     }
 
     @Test
