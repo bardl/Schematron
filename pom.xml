@@ -12,18 +12,18 @@
         <developerConnection>scm:git:git@github.com:bardl/Schematron.git</developerConnection>
         <url>git@github.com:bardl/Schematron.git</url>
       <tag>HEAD</tag>
-  </scm>   
+  </scm>
 
     <distributionManagement>
         <repository>
             <uniqueVersion>false</uniqueVersion>
             <id>pagero-releases</id>
-            <url>http://pogit:8080/nexus/content/repositories/releases/</url>
+            <url>http://nexus/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
             <uniqueVersion>false</uniqueVersion>
             <id>pagero-snapshots</id>
-            <url>http://pogit:8080/nexus/content/repositories/snapshots/</url>
+            <url>http://nexus/nexus/content/repositories/snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
 
