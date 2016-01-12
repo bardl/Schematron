@@ -302,6 +302,7 @@ public class XMLWriter extends XMLFilterImpl
      * {@link #endDocument endDocument} method after writing a
      * document.</p>
      *
+     * @throws IOException when error occurs during flush
      * @see #reset
      */
     public void flush() throws IOException
@@ -315,7 +316,6 @@ public class XMLWriter extends XMLFilterImpl
      *
      * @param writer The output destination, or null to use
      *        standard output.
-     * @return The current output writer.
      * @see #flush
      */
     public void setOutput( Writer writer )
