@@ -3,6 +3,8 @@ package org.schematron;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.xml.sax.SAXException;
 
 import javax.xml.transform.TransformerException;
@@ -15,32 +17,18 @@ import java.io.IOException;
 /**
  * Goal which runs schematron compiler
  *
- * @goal install
- * @phase install
  */
+
+@Mojo(name = "install")
 public class SchematronMojo extends AbstractMojo {
 
-    /**
-     * Location of the file.
-     *
-     * @parameter expression="${project.build.directory}"
-     * @required
-     */
+    @Parameter(required = true, defaultValue = "${project.build.directory}")
     private File outputDirectory;
 
-    /**
-     * Location of the file.
-     *
-     * @parameter expression="${basedir}"
-     * @required
-     */
+    @Parameter(required = true, defaultValue = "${basedir}")
     private File baseDirectory;
 
-     /**
-     * Schematron files.
-     *
-     * @parameter
-     */
+    @Parameter
     private String[] schematronFiles;
 
 
