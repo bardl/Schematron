@@ -33,6 +33,10 @@
         <module>compiler</module>
     </modules>
 
+    <properties>
+        <maven.javadoc.skip>true</maven.javadoc.skip>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
