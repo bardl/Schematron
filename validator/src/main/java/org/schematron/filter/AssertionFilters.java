@@ -5,7 +5,9 @@ import org.schematron.model.Assertion;
 import java.util.List;
 
 /**
- * Assertion based filtering
+ * Assertion based filtering, mainly do
+ * 1. getter/setter
+ * 2. filtering assertions
  */
 public interface AssertionFilters {
 

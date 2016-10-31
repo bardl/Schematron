@@ -3,7 +3,10 @@ package org.schematron.model;
 import java.util.List;
 
 /**
- * Keep filtered schematraon result from here
+ * Keep filtered schematraon results in here
+ * 1. warnings
+ * 2. errors
+ * 3. fatals
  */
 public class FilteredSchematronResult implements SchematronResult {
 

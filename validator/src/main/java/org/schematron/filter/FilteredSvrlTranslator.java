@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * SchematronResultTransformer which doing assertion based filtering
+ * SchematronResultTransformer which doing assertion based filtering and
+ * schematraon transform
  */
 public class FilteredSvrlTranslator extends SVRLSchematronResultTransformer implements AssertionFilters {
 
@@ -40,7 +41,7 @@ public class FilteredSvrlTranslator extends SVRLSchematronResultTransformer impl
     }
 
     /**
-     * Filter assertions based on the filters, if assertion name contains in filters
+     * Filter assertions based on the filters, if assertion name exists in filters
      * that assertion should filter out
      *
      * @param assertions list of assertions
