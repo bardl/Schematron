@@ -50,15 +50,15 @@ public class FilteredSvrlTranslator extends SVRLSchematronResultTransformer impl
     public List<Assertion> filter(List<Assertion> assertions) {
         List<Assertion> filteredAssertion = new ArrayList<>();
         for (Assertion assertion : assertions) {
-            boolean isContain = false;
+            boolean needToFilter = false;
             for (String filter : getFilters()) {
                 if (assertion.getName().contains(filter)) {
-                    isContain = true;
+                    needToFilter = true;
                     break;
                 }
             }
 
-            if (!isContain) filteredAssertion.add(assertion);
+            if (!needToFilter) filteredAssertion.add(assertion);
         }
 
         return filteredAssertion;
