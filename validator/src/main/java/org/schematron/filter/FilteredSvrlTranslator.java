@@ -26,7 +26,7 @@ public class FilteredSvrlTranslator extends SVRLSchematronResultTransformer impl
                 filter(schematronResult.getFatals()));
     }
 
-    private SchematronResult performSvrlTransform(InputSource inputSource) {
+    SchematronResult performSvrlTransform(InputSource inputSource) {
         return super.transform(inputSource);
     }
 
