@@ -16,12 +16,19 @@ public class ResourceResolver implements LSResourceResolver {
 
     public LSInput resolveResource(final String type, final String namespaceURI, final String publicId, final String systemId, final String baseURI) {
         try {
-            InputStream inputStream = new FileInputStream(schematronPath + systemId);
+            InputStream inputStream = new FileInputStream(schematronPath + filename(systemId));
             final String encoding = "utf-8";
             return new StreamResourceResolver(inputStream, encoding);
         } catch (FileNotFoundException e) {
             throw new RuntimeException("Unable to resolve resource [" + systemId + "] with schematronPath [" + schematronPath + "]", e);
         }
 
+    }
+
+    private String filename(String systemId) {
+        if (systemId.contains("#")) {
+            return systemId.substring(0, systemId.indexOf("#"));
+        }
+        return systemId;
     }
 }
