@@ -3,20 +3,20 @@
 	<parent>
 		<groupId>org.schematron</groupId>
 		<artifactId>schematron</artifactId>
-		<version>1.6.12-SNAPSHOT</version>
+		<version>1.6.12</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>	
 	<name>Schematron Compiler</name>
 	<groupId>org.schematron</groupId>
 	<artifactId>schematron-compiler</artifactId>
     <packaging>jar</packaging>
-    <version>1.6.12-SNAPSHOT</version>
+    <version>1.6.12</version>
 	    
 	<dependencies>
         <dependency>
             <groupId>org.schematron</groupId>
             <artifactId>schematron-maven-plugin</artifactId>
-            <version>1.6.12-SNAPSHOT</version>
+            <version>1.6.12</version>
         </dependency>
     </dependencies>
 
@@ -25,7 +25,7 @@
             <plugin>
                 <groupId>org.schematron</groupId>
                 <artifactId>schematron-maven-plugin</artifactId>
-                <version>1.6.12-SNAPSHOT</version>
+                <version>1.6.12</version>
                 <configuration>
                     <schematronFiles>
                         <param>/src/main/resource/ehf/schematron/NORWAY-UBL-T10.sch</param>
