@@ -27,7 +27,6 @@ import java.io.InputStream;
 public class Main {
     static Logger logger = LoggerFactory.getLogger(Main.class);
 
-
     public static void main(String[] args) throws IOException, SAXException, TransformerException {
 //        testSchemaValidation();
         executeNewSchematronValidation();

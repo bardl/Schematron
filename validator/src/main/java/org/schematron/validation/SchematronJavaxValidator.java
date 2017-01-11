@@ -1,6 +1,5 @@
 package org.schematron.validation;
 
-import org.schematron.commons.XsltVersion;
 import org.schematron.filter.SchematronResultTransformer;
 import org.schematron.loader.SchematronLoader;
 import org.schematron.model.Assertion;
@@ -32,9 +31,9 @@ public class SchematronJavaxValidator extends Validator {
     private SchematronTransformer transformer;
     private SchematronResultTransformer schematronResultTransformer;
 
-    public SchematronJavaxValidator(InputSource inputSource, XsltVersion version, LSResourceResolver resolver, SchematronResultTransformer schematronResultTransformer) throws TransformerException, IOException, SAXException {
+    public SchematronJavaxValidator(InputSource inputSource, LSResourceResolver resolver, SchematronResultTransformer schematronResultTransformer) throws TransformerException, IOException, SAXException {
         this.resourceResolver = resolver;
-        this.transformer = new SchematronTransformer(inputSource, version, new SchemaURIResolver(resolver));
+        this.transformer = new SchematronTransformer(inputSource, new SchemaURIResolver(resolver));
         this.schematronResultTransformer = schematronResultTransformer;
     }
 

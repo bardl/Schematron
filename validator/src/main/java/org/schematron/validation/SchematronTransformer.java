@@ -1,6 +1,5 @@
 package org.schematron.validation;
 
-import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
 import org.schematron.filter.SVRLSchematronResultTransformer;
 import org.schematron.filter.SchematronResultTransformer;
@@ -22,9 +21,9 @@ public class SchematronTransformer implements SchematronValidator {
 
     private Transformer transformer;
 
-    public SchematronTransformer(InputSource inputSource, XsltVersion version, URIResolver resolver) throws TransformerException, IOException, SAXException {
+    public SchematronTransformer(InputSource inputSource, URIResolver resolver) throws TransformerException, IOException, SAXException {
         SchematronLoader loader = new SchematronLoader();
-        this.transformer = loader.loadSchema(inputSource, version, resolver);
+        this.transformer = loader.loadSchema(inputSource, resolver);
     }
 
     private SchematronResult transform(Source source, SchematronResultTransformer validationFilter) throws SAXException, IOException {

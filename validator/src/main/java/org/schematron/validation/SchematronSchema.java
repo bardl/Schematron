@@ -1,6 +1,5 @@
 package org.schematron.validation;
 
-import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
 import org.schematron.filter.SchematronResultTransformer;
 import org.slf4j.Logger;
@@ -52,7 +51,7 @@ public class SchematronSchema extends Schema {
         }
 
         try {
-            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), XsltVersion.XSL_VERSION_2, resolver, schematronResultTransformer);
+            Validator validator = new SchematronJavaxValidator(getInputSource(sources[0]), resolver, schematronResultTransformer);
             validator.setErrorHandler(errorHandler);
             return validator;
         } catch (Exception e) {

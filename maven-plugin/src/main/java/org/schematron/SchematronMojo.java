@@ -73,7 +73,7 @@ public class SchematronMojo extends AbstractMojo {
             outputStream = new FileOutputStream(outputDirectory + File.separator + getResultFileName(schematronFile));
 
             getLog().info("Compiling [" + file.getCanonicalPath() + "]");
-            new SchematronCompilator().execute(fullPathToSchematronFile, outputStream, file);
+            new FileSchematronCompiler().execute(fullPathToSchematronFile, outputStream, file);
         } catch (IOException e) {
             throw new MojoExecutionException("Unable to locate schematronfile [" + schematronFile + "] with baseDirectory [" + baseDirectory.toString() + "].", e);
         } catch (SAXException e) {

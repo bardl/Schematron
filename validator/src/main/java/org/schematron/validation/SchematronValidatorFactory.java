@@ -1,6 +1,5 @@
 package org.schematron.validation;
 
-import org.schematron.commons.XsltVersion;
 import org.schematron.exception.SchematronException;
 import org.schematron.resolver.NullResourceResolver;
 import org.xml.sax.InputSource;
@@ -26,7 +25,7 @@ public class SchematronValidatorFactory {
                 resolver = new NullResourceResolver();
             }
 
-            return new SchematronTransformer(getInputSource(source), XsltVersion.XSL_VERSION_2, resolver);
+            return new SchematronTransformer(getInputSource(source), resolver);
         } catch (Exception e) {
             throw new SchematronException("Unable to instantiate SchematronValidator.", e);
         }
