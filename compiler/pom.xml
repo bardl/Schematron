@@ -3,19 +3,19 @@
 	<parent>
 		<groupId>org.schematron</groupId>
 		<artifactId>schematron</artifactId>
-		<version>1.6.15-SNAPSHOT</version>
+		<version>1.6.16-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>	
 	<name>Schematron Compiler</name>
 	<artifactId>schematron-compiler</artifactId>
     <packaging>jar</packaging>
-    <version>1.6.15-SNAPSHOT</version>
+    <version>1.6.16-SNAPSHOT</version>
 	    
 	<dependencies>
         <dependency>
 			<groupId>org.schematron</groupId>
 			<artifactId>schematron-validator</artifactId>
-			<version>1.6.15-SNAPSHOT</version>
+			<version>1.6.16-SNAPSHOT</version>
         </dependency>
 
 		<dependency>
