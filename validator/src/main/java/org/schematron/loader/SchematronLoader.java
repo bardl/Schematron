@@ -29,6 +29,20 @@ public class SchematronLoader {
 
     private Transformer createTransformer(Source xsltSource, URIResolver resolver) throws TransformerConfigurationException {
         TransformerFactory factory = TransformerFactory.newInstance(SAXON_TRAX_CLASS, null);
+        factory.setErrorListener(new ErrorListener() {
+            @Override
+            public void warning(TransformerException exception) throws TransformerException {}
+
+            @Override
+            public void error(TransformerException exception) throws TransformerException {
+                throw exception;
+            }
+
+            @Override
+            public void fatalError(TransformerException exception) throws TransformerException {
+                throw exception;
+            }
+        });
         factory.setURIResolver(resolver);
         return factory.newTransformer(xsltSource);
     }
