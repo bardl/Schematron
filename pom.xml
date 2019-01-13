@@ -5,13 +5,13 @@
     <groupId>org.schematron</groupId>
     <artifactId>schematron</artifactId>
     <packaging>pom</packaging>
-    <version>1.6.19-SNAPSHOT</version>
+    <version>1.6.19</version>
 
     <scm>
         <connection>scm:git:ssh://github.com/bardl/Schematron.git</connection>
         <developerConnection>scm:git:git@github.com:bardl/Schematron.git</developerConnection>
         <url>git@github.com:bardl/Schematron.git</url>
-      <tag>HEAD</tag>
+      <tag>schematron-1.6.19</tag>
   </scm>
 
     <distributionManagement>

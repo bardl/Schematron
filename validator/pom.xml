@@ -3,14 +3,14 @@
 	<parent>
 		<groupId>org.schematron</groupId>
 		<artifactId>schematron</artifactId>
-		<version>1.6.19-SNAPSHOT</version>
+		<version>1.6.19</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>	
 	<name>Schematron Validator</name>
 	<groupId>org.schematron</groupId>
 	<artifactId>schematron-validator</artifactId>
     <packaging>jar</packaging>
-    <version>1.6.19-SNAPSHOT</version>
+    <version>1.6.19</version>
 	    
 	<dependencies>
 
