@@ -7,12 +7,16 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class Assertion {
     private String description;
     private String name;
+    private String test;
+    private String location;
 
     public Assertion() {}
 
-    public Assertion(String name, String description) {
+    public Assertion(String name, String description, String test, String location) {
         this.name = name;
         this.description = description;
+        this.test = test;
+        this.location = location;
     }
 
     @XmlElement

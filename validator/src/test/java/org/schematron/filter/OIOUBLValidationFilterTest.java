@@ -23,7 +23,7 @@ public class OIOUBLValidationFilterTest {
         SchematronResult schematronResult = validationFilter.transform(new InputSource(inputStream));
 
         Assert.assertFalse(!schematronResult.getFatals().isEmpty());
-        Assert.assertEquals("[F-INV001] Root element must be Invoice Error when performing test [[local-name(*) = 'Invoice']].\n", schematronResult.toString());
+        Assert.assertEquals("[F-INV001] Root element must be Invoice Error when performing test [local-name(*) = 'Invoice'].\n", schematronResult.toString());
     }
 
     @Test
@@ -34,12 +34,12 @@ public class OIOUBLValidationFilterTest {
 
         Assert.assertFalse(!schematronResult.getFatals().isEmpty());
         Assert.assertEquals("[F-LIB195] Invalid schemeID. Must be a valid scheme for\n" +
-                "            PartyTaxScheme/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyTaxScheme[1][cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ']].\n" +
+                "            PartyTaxScheme/CompanyID Error when performing test [cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ'].\n" +
                 "[F-LIB189] Invalid schemeID. Must be a valid scheme for\n" +
-                "            PartyLegalEntity/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:SellerSupplierParty[1]/cac:Party[1]/cac:PartyLegalEntity[1][cbc:CompanyID/@schemeID = 'DK:CVR' or cbc:CompanyID/@schemeID = 'DK:CPR' or\n" +
-                "            cbc:CompanyID/@schemeID = 'ZZZ']].\n" +
+                "            PartyLegalEntity/CompanyID Error when performing test [cbc:CompanyID/@schemeID = 'DK:CVR' or cbc:CompanyID/@schemeID = 'DK:CPR' or\n" +
+                "            cbc:CompanyID/@schemeID = 'ZZZ'].\n" +
                 "[F-LIB195] Invalid schemeID. Must be a valid scheme for\n" +
-                "            PartyTaxScheme/CompanyID Error when performing test [/OrderResponseSimple[1]/cac:BuyerCustomerParty[1]/cac:Party[1]/cac:PartyTaxScheme[1][cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ']].\n", schematronResult.toString());
+                "            PartyTaxScheme/CompanyID Error when performing test [cbc:CompanyID/@schemeID = 'DK:SE' or cbc:CompanyID/@schemeID = 'ZZZ'].\n", schematronResult.toString());
     }
 
     @Test

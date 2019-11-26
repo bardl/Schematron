@@ -57,7 +57,7 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
                         pattern.append("[").append(current.getTextContent()).append("]");
                     }
                 }
-                addAssertion(schematronResult, failedText, flag, xpath + pattern.toString());
+                addAssertion(schematronResult, failedText, flag, pattern.toString(), xpath);
             }
             return schematronResult;
         } catch (SAXException e) {
@@ -81,15 +81,15 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
         }
     }
 
-    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test) {
+    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test, String location) {
         StringBuilder message = getErrorDescription(text, getLevelDisplayText(level), test);
 
         if (level.equalsIgnoreCase("warning")) {
-            schematronResult.getWarnings().add(new Assertion(text, message.toString()));
+            schematronResult.getWarnings().add(new Assertion(text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("error")) {
-            schematronResult.getErrors().add(new Assertion(text, message.toString()));
+            schematronResult.getErrors().add(new Assertion(text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("fatal")) {
-            schematronResult.getFatals().add(new Assertion(text, message.toString()));
+            schematronResult.getFatals().add(new Assertion(text, message.toString(), test, location));
         }
     }
 
@@ -99,9 +99,9 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
         message.append(text);
         message.append(" ");
         message.append(level);
-        message.append(" when performing test [");
+        message.append(" when performing test ");
         message.append(test);
-        message.append("].");
+        message.append(".");
         return message;
     }
 
@@ -122,6 +122,7 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
         private final String ERROR_ELEMENT = "Error";
         private final String DESCRIPTION_ELEMENT = "Description";
         private final String CONDITION_ELEMENT = "Pattern";
+        private final String XPATH_ELEMENT = "Xpath";
 
         private OIOUBLXMLFilter() throws SAXException {
             super();
@@ -157,6 +158,8 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
                 currentElement.setMessage(new String(ch, start, length));
             } else if (currentElement.name.equals(DESCRIPTION_ELEMENT)) {
                 currentElement.setMessage(new String(ch, start, length));
+            } else if (currentElement.name.equals(XPATH_ELEMENT)) {
+                currentElement.setMessage(new String(ch, start, length));
             }
 
             super.characters(ch, start, length);
@@ -164,14 +167,14 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
 
         public void endElement(String namespaceURI, String localName, String qualifiedName) throws SAXException {
             if (localName.equals(ERROR_ELEMENT)) {
+                String pattern = currentElement.getChildElementWithName(CONDITION_ELEMENT).getMessage();
                 String description = currentElement.getChildElementWithName(DESCRIPTION_ELEMENT).getMessage();
                 StringBuilder message = new StringBuilder();
                 message.append(description);
-                message.append(", failed when performing test [");
-                message.append(currentElement.getChildElementWithName(CONDITION_ELEMENT).getMessage());
-                message.append("] in context [").append(currentElement.getMessage()).append("].");
+                message.append(" in context [").append(currentElement.getMessage()).append("].");
+                String xpath = currentElement.getChildElementWithName(XPATH_ELEMENT).getMessage();
 
-                result.getErrors().add(new Assertion(description, message.toString()));
+                result.getErrors().add(new Assertion(description, message.toString(), pattern, xpath));
             }
             currentElement = currentElement.parent;
             super.endElement(namespaceURI, localName, qualifiedName);

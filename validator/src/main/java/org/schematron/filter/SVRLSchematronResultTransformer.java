@@ -43,13 +43,14 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 Node failedNode = nList.item(i);
                 String flag = getAttributeContent(failedNode, "flag", "error");
                 String test = getAttributeContent(failedNode, "test", "");
+                String location = getAttributeContent(failedNode, "location", "");
 
                 NodeList texts = failedNode.getChildNodes();
                 for (int j = 0; j < texts.getLength(); j++) {
                     Node current = texts.item(j);
                     if (current.getNodeName().contentEquals("svrl:text")) {
                         String failedText = current.getTextContent();
-                        addAssertion(schematronResult, failedText, flag, test);
+                        addAssertion(schematronResult, failedText, flag, test, location);
                     }
                 }
             }
@@ -71,15 +72,15 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
         }
     }
 
-    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test) {
+    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test, String location) {
         StringBuilder message = getErrorDescription(text, getLevelDisplayText(level), test);
 
         if (level.equalsIgnoreCase("warning")) {
-            schematronResult.getWarnings().add(new Assertion(text, message.toString()));
+            schematronResult.getWarnings().add(new Assertion(text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("error")) {
-            schematronResult.getErrors().add(new Assertion(text, message.toString()));
+            schematronResult.getErrors().add(new Assertion(text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("fatal")) {
-            schematronResult.getFatals().add(new Assertion(text, message.toString()));
+            schematronResult.getFatals().add(new Assertion(text, message.toString(), test, location));
         }
     }
 
@@ -177,11 +178,11 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 message.append("].");
 
                 if (currentElement.parent.getLevel() == ValidationLevel.ERROR) {
-                    result.getErrors().add(new Assertion(name, message.toString()));
+                    result.getErrors().add(new Assertion(name, message.toString(), "", ""));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.WARN) {
-                    result.getWarnings().add(new Assertion(name, message.toString()));
+                    result.getWarnings().add(new Assertion(name, message.toString(), "", ""));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.FATAL) {
-                    result.getFatals().add(new Assertion(name, message.toString()));
+                    result.getFatals().add(new Assertion(name, message.toString(), "", ""));
                 }
             }
 
