@@ -28,4 +28,14 @@ public class Assertion {
     public String getName() {
         return name;
     }
+
+    @XmlElement
+    public String getTest() {
+        return test;
+    }
+
+    @XmlElement
+    public String getLocation() {
+        return location;
+    }
 }
