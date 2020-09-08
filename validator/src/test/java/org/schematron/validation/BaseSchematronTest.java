@@ -15,7 +15,7 @@ public class BaseSchematronTest {
 
     private static Validator validator;
 
-    public static void setupValidator(final String schematronPath, String mainSchemaName, SchematronResultTransformer schematronResultTransformer) throws SAXException {
+    public static Validator setupValidator(final String schematronPath, String mainSchemaName, SchematronResultTransformer schematronResultTransformer) throws SAXException {
 
         SchematronErrorHandler errorHandler = new SchematronErrorHandler();
 
@@ -33,6 +33,7 @@ public class BaseSchematronTest {
 
         InputStream mainSchema = BaseSchematronTest.class.getClassLoader().getResourceAsStream(schematronPath + mainSchemaName);
         validator = factory.newSchema(new StreamSource(mainSchema)).newValidator();
+        return validator;
     }
 
     public void testIncorrectFile(String testfile, String... errorCodes) throws IOException {

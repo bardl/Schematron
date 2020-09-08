@@ -38,22 +38,9 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
             Document doc = dBuilder.parse(source);
             doc.getDocumentElement().normalize();
 
-            NodeList nList = doc.getElementsByTagName("svrl:failed-assert");
-            for (int i = 0; i < nList.getLength(); i++) {
-                Node failedNode = nList.item(i);
-                String flag = getAttributeContent(failedNode, "flag", "error");
-                String test = getAttributeContent(failedNode, "test", "");
-                String location = getAttributeContent(failedNode, "location", "");
+            handleErrors(schematronResult, doc.getElementsByTagName("svrl:failed-assert"));
+            handleErrors(schematronResult, doc.getElementsByTagName("svrl:successful-report"));
 
-                NodeList texts = failedNode.getChildNodes();
-                for (int j = 0; j < texts.getLength(); j++) {
-                    Node current = texts.item(j);
-                    if (current.getNodeName().contentEquals("svrl:text")) {
-                        String failedText = current.getTextContent();
-                        addAssertion(schematronResult, failedText, flag, test, location);
-                    }
-                }
-            }
             return schematronResult;
         } catch (SAXException e) {
             throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
@@ -61,6 +48,24 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
             throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
         } catch (IOException e) {
             throw new SchematronException("Error occured when transforming Schematron Validation Report Language (SVRL) to SchematronResult.", e);
+        }
+    }
+
+    private void handleErrors(SchematronResultImpl schematronResult, NodeList nList) {
+        for (int i = 0; i < nList.getLength(); i++) {
+            Node failedNode = nList.item(i);
+            String flag = getAttributeContent(failedNode, "flag", "error");
+            String test = getAttributeContent(failedNode, "test", "");
+            String location = getAttributeContent(failedNode, "location", "");
+
+            NodeList texts = failedNode.getChildNodes();
+            for (int j = 0; j < texts.getLength(); j++) {
+                Node current = texts.item(j);
+                if (current.getNodeName().contentEquals("svrl:text")) {
+                    String failedText = current.getTextContent();
+                    addAssertion(schematronResult, failedText, flag, test, location);
+                }
+            }
         }
     }
 
