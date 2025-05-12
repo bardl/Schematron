@@ -17,9 +17,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
+import java.io.*;
 
 /**
  * ValidationFilter parse the SVRL validation-report and generates events to ErrorHandler if an error is
@@ -54,6 +52,7 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
     private void handleErrors(SchematronResultImpl schematronResult, NodeList nList) {
         for (int i = 0; i < nList.getLength(); i++) {
             Node failedNode = nList.item(i);
+            String id = getAttributeContent(failedNode, "id", "");
             String flag = getAttributeContent(failedNode, "flag", "error");
             String test = getAttributeContent(failedNode, "test", "");
             String location = getAttributeContent(failedNode, "location", "");
@@ -63,7 +62,7 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 Node current = texts.item(j);
                 if (current.getNodeName().contentEquals("svrl:text")) {
                     String failedText = current.getTextContent();
-                    addAssertion(schematronResult, failedText, flag, test, location);
+                    addAssertion(schematronResult, id, failedText, flag, test, location);
                 }
             }
         }
@@ -77,15 +76,15 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
         }
     }
 
-    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test, String location) {
+    private void addAssertion(SchematronResultImpl schematronResult, String id, String text, String level, String test, String location) {
         StringBuilder message = getErrorDescription(text, getLevelDisplayText(level), test);
 
         if (level.equalsIgnoreCase("warning")) {
-            schematronResult.getWarnings().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getWarnings().add(new Assertion(id, text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("error")) {
-            schematronResult.getErrors().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getErrors().add(new Assertion(id, text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("fatal")) {
-            schematronResult.getFatals().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getFatals().add(new Assertion(id, text, message.toString(), test, location));
         }
     }
 
@@ -112,8 +111,10 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
         message.append("].");
         return message;
     }
-
+//<svrl:active-pattern document="" id="BIICOREUBL-T10" name="BIICOREUBL-T10"/>
     private class SVRLXMLFilter extends XMLFilterImpl {
+        protected String currentActivePatternId;
+        protected String currentActivePatternName;
         protected ElementPath currentElement;
         protected boolean valid = true;
         protected SchematronResultImpl result;
@@ -145,6 +146,9 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 if (currentElement.getLevel() == ValidationLevel.ERROR || currentElement.getLevel() == ValidationLevel.FATAL) {
                     valid = false;
                 }
+            } else if (currentElement.name.equals("active-pattern")) {
+                currentActivePatternId = atts.getValue("id");
+                currentActivePatternName = atts.getValue("name");
             }
 
             super.startElement(namespaceURI, localName, qualifiedName, atts);
@@ -183,11 +187,11 @@ public class SVRLSchematronResultTransformer implements SchematronResultTransfor
                 message.append("].");
 
                 if (currentElement.parent.getLevel() == ValidationLevel.ERROR) {
-                    result.getErrors().add(new Assertion(name, message.toString(), "", ""));
+                    result.getErrors().add(new Assertion(currentActivePatternId, name, message.toString(), "", ""));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.WARN) {
-                    result.getWarnings().add(new Assertion(name, message.toString(), "", ""));
+                    result.getWarnings().add(new Assertion(currentActivePatternId, name, message.toString(), "", ""));
                 } else if (currentElement.parent.getLevel() == ValidationLevel.FATAL) {
-                    result.getFatals().add(new Assertion(name, message.toString(), "", ""));
+                    result.getFatals().add(new Assertion(currentActivePatternId, name, message.toString(), "", ""));
                 }
             }
 

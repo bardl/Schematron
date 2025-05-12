@@ -1,6 +1,7 @@
 package org.schematron.validation;
 
 import org.junit.Assert;
+import org.schematron.StreamResourceResolver;
 import org.schematron.filter.SchematronResultTransformer;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;

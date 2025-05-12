@@ -21,24 +21,24 @@ public class FilteredSvrlTranslatorTest {
             @Override
             public List<Assertion> getWarnings() {
                 List<Assertion> warnings = new ArrayList<>();
-                warnings.add(new Assertion("afilter", "afilter-desc", "test", "location"));
-                warnings.add(new Assertion("filter1", "filter1-desc", "test", "location"));
+                warnings.add(new Assertion("id1", "afilter", "afilter-desc", "test", "location"));
+                warnings.add(new Assertion("id2", "filter1", "filter1-desc", "test", "location"));
                 return warnings;
             }
 
             @Override
             public List<Assertion> getErrors() {
                 List<Assertion> errors = new ArrayList<>();
-                errors.add(new Assertion("filter2", "filter2-desc", "test", "location"));
+                errors.add(new Assertion("id1", "filter2", "filter2-desc", "test", "location"));
                 return errors;
             }
 
             @Override
             public List<Assertion> getFatals() {
                 List<Assertion> fatals = new ArrayList<>();
-                fatals.add(new Assertion("afilter", "afilter-desc", "test", "location"));
-                fatals.add(new Assertion("filter3", "filter3-desc", "test", "location"));
-                fatals.add(new Assertion("afilter", "afilter-desc", "test", "location"));
+                fatals.add(new Assertion("id1", "afilter", "afilter-desc", "test", "location"));
+                fatals.add(new Assertion("id2", "filter3", "filter3-desc", "test", "location"));
+                fatals.add(new Assertion("id3", "afilter", "afilter-desc", "test", "location"));
                 return fatals;
             }
         };
@@ -64,9 +64,9 @@ public class FilteredSvrlTranslatorTest {
         filters.add("OP-T10-R004");
 
         List<Assertion> assertions1 = new ArrayList<>();
-        assertions1.add(new Assertion("afilter", "afilter-desc", "test", "location"));
-        assertions1.add(new Assertion("filter3", "filter3-desc", "test", "location"));
-        assertions1.add(new Assertion("[OP-T10-R004]-A payee account identifier scheme MUST be from the Account ID PEPPOL code list", "afilter-desc", "test", "location"));
+        assertions1.add(new Assertion("id1", "afilter", "afilter-desc", "test", "location"));
+        assertions1.add(new Assertion("id2", "filter3", "filter3-desc", "test", "location"));
+        assertions1.add(new Assertion("id3", "[OP-T10-R004]-A payee account identifier scheme MUST be from the Account ID PEPPOL code list", "afilter-desc", "test", "location"));
 
         FilteredSvrlTranslator translator = new FilteredSvrlTranslator();
         translator.setFilters(filters);
@@ -82,9 +82,9 @@ public class FilteredSvrlTranslatorTest {
         filters.add("OP-T10-R004");
 
         List<Assertion> assertions1 = new ArrayList<>();
-        assertions1.add(new Assertion("afilter", "afilter-desc", "test", "location"));
-        assertions1.add(new Assertion("filter3", "filter3-desc", "test", "location"));
-        assertions1.add(new Assertion("[OP-T10-R005]-A payee account identifier scheme MUST be from the Account ID PEPPOL code list", "afilter-desc", "test", "location"));
+        assertions1.add(new Assertion("id1", "afilter", "afilter-desc", "test", "location"));
+        assertions1.add(new Assertion("id2", "filter3", "filter3-desc", "test", "location"));
+        assertions1.add(new Assertion("id3", "[OP-T10-R005]-A payee account identifier scheme MUST be from the Account ID PEPPOL code list", "afilter-desc", "test", "location"));
 
         FilteredSvrlTranslator translator = new FilteredSvrlTranslator();
         translator.setFilters(filters);

@@ -57,7 +57,7 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
                         pattern.append("[").append(current.getTextContent()).append("]");
                     }
                 }
-                addAssertion(schematronResult, failedText, flag, pattern.toString(), xpath);
+                addAssertion(schematronResult, "", failedText, flag, pattern.toString(), xpath);
             }
             return schematronResult;
         } catch (SAXException e) {
@@ -81,15 +81,15 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
         }
     }
 
-    private void addAssertion(SchematronResultImpl schematronResult, String text, String level, String test, String location) {
+    private void addAssertion(SchematronResultImpl schematronResult, String id, String text, String level, String test, String location) {
         StringBuilder message = getErrorDescription(text, getLevelDisplayText(level), test);
 
         if (level.equalsIgnoreCase("warning")) {
-            schematronResult.getWarnings().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getWarnings().add(new Assertion(id, text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("error")) {
-            schematronResult.getErrors().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getErrors().add(new Assertion(id, text, message.toString(), test, location));
         } else if (level.equalsIgnoreCase("fatal")) {
-            schematronResult.getFatals().add(new Assertion(text, message.toString(), test, location));
+            schematronResult.getFatals().add(new Assertion(id, text, message.toString(), test, location));
         }
     }
 
@@ -174,7 +174,7 @@ public class OIOUBLSchematronResultTransformer implements SchematronResultTransf
                 message.append(" in context [").append(currentElement.getMessage()).append("].");
                 String xpath = currentElement.getChildElementWithName(XPATH_ELEMENT).getMessage();
 
-                result.getErrors().add(new Assertion(description, message.toString(), pattern, xpath));
+                result.getErrors().add(new Assertion("", description, message.toString(), pattern, xpath));
             }
             currentElement = currentElement.parent;
             super.endElement(namespaceURI, localName, qualifiedName);

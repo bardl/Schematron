@@ -1,6 +1,6 @@
 package org.schematron;
 
-import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
+import org.schematron.StreamResourceResolver;
 import org.schematron.validation.SchematronErrorHandler;
 import org.schematron.validation.SchematronSchemaFactory;
 import org.slf4j.Logger;
@@ -48,7 +48,7 @@ public class Main {
                 public LSInput resolveResource(String type, String namespaceURI, String publicId, String systemId, String baseURI) {
                     try {
                         FileInputStream fileInputStream = new FileInputStream(schematronPath + systemId);
-                        return new DOMInputImpl(publicId, systemId, baseURI, fileInputStream, "utf-8");
+                        return new StreamResourceResolver(fileInputStream, "utf-8");
                     } catch (FileNotFoundException e) {
                         throw new RuntimeException("Unable to find resource [" + systemId + "].");
                     }
