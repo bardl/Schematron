@@ -1,4 +1,4 @@
-package org.schematron.validation;
+package org.schematron;
 
 import org.w3c.dom.ls.LSInput;
 

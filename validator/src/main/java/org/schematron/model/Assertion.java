@@ -5,6 +5,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 public class Assertion {
+    private String id;
     private String description;
     private String name;
     private String test;
@@ -12,7 +13,8 @@ public class Assertion {
 
     public Assertion() {}
 
-    public Assertion(String name, String description, String test, String location) {
+    public Assertion(String id, String name, String description, String test, String location) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.test = test;
@@ -37,5 +39,10 @@ public class Assertion {
     @XmlElement
     public String getLocation() {
         return location;
+    }
+
+    @XmlElement
+    public String getId() {
+        return id;
     }
 }
